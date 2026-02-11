@@ -1036,3 +1036,104 @@ dt <= 1 / (c * sqrt(1/dx^2 + 1/dy^2 + 1/dz^2))
 ```
 v_g = c / n_g,    n_g = n - lambda*(dn/d_lambda)
 ```
+
+---
+
+## 10. Recent Experimental Literature (Deep Research, Feb 2026)
+
+### 10.1 Measured Refractive Indices of Myelin
+
+| Source | Method | n_myelin | n_axon | n_ECF | Notes |
+|--------|--------|----------|--------|-------|-------|
+| Kumar et al. 2016 | Literature consensus | 1.44 | 1.38 | 1.34 | Used in FDTD modeling |
+| De Campos Vidal et al. 1980 | Form birefringence (rat sciatic) | 1.46 | -- | -- | Unfixed nerve, match point |
+| Antonov et al. 1983 | Holographic microscopy (frog, in vivo) | 1.455 | 1.34 | -- | Radial distribution measured |
+| Wang et al. 2017, Nat Comms 8:1832 | Spectral confocal (mouse, in vivo) | 1.47 | 1.358 | 1.35 | In vivo measurement |
+| Marangoni et al. 2017, BBA 1859(5) | Langmuir monolayer | 1.46 | -- | -- | Pure lipid bilayer |
+| Lipid bilayers (general) | SPR, ellipsometry | 1.46-1.50 | -- | -- | DPPC=1.478, cholesterol=1.47 |
+
+**Key finding**: Measured n_myelin values cluster at 1.44-1.47, consistently higher than the 1.44 used by Kumar. In vivo values (Wang 2017: 1.47) suggest stronger waveguiding than modeled.
+
+### 10.2 Kumar et al. 2016 — Definitive Parameters
+
+**Paper**: "Possible existence of optical communication channels in the brain." Scientific Reports 6, 36508.
+
+- g-ratio = 0.6 (primary), outer radius r' = 5 um
+- Wavelength range: 400-1300 nm; primary test wavelength: 612 nm
+- Node of Ranvier transmission: **46-96%** (wavelength and geometry dependent)
+- Thin axons: node transmission increases slightly (~2%)
+- Simulation: Lumerical FDTD Solutions and MODE Solutions
+- Bending losses at curvature radii > 10 um: mode leakage < 10% per bend
+- Myelin thickness variations +/-20% degrade but do not destroy waveguiding
+
+### 10.3 Sun, Wang & Dai 2010 — Direct Photon Transmission in Nerve
+
+**Paper**: "Biophotons as neural communication signals demonstrated by in situ biophoton autography." Photochem. Photobiol. Sci. 9, 315-322.
+
+- Tissue: Rat spinal sensory and motor nerve roots (in vitro)
+- Stimulation: Different spectral light (IR, red, yellow, blue, green, white) applied at one end
+- **Result**: Significant increase in biophotonic activity at the other end (several cm away)
+- Inhibition: Procaine (neural conduction blocker) and metabolic inhibitors suppressed transmission
+- **Implication**: Biophotons conduct along neural fibers; dependent on neural metabolic function, not passive optical transmission
+
+### 10.4 Zangari et al. 2021 — Photon Detection at Nodes of Ranvier
+
+**Paper**: "Photons detected in the active nerve by photographic technique." Scientific Reports 11, 3022.
+
+- Method: Ag+ photoreduction (photographic technique) reveals photon locations
+- Tissue: Electrically stimulated nerve sections in sealed dark container
+- **Result**: Photonic radiation associated with action potential takes place at the Node of Ranvier
+- Wavelength sensitivity: 200-950 nm (broad biophoton range)
+
+### 10.5 Zangari, Micheli et al. 2018 — Node as Nanoantenna Array
+
+**Paper**: Scientific Reports 8, 539.
+
+- Model: 40 ion channels as phased dipole nanoantenna array (5 axial planes x 8 circumferential)
+- Cylinder radius: 0.5 um, channel aperture: ~10 nm
+- Radiation pattern: Directional along axon axis with action potential phase delays
+- Wavelengths below 1600 nm propagate most efficiently
+- IR (>700 nm) produces better directional coupling than visible
+
+### 10.6 Liu et al. 2019 — Mid-IR Waveguiding Confirmation
+
+**Paper**: Adv. Functional Materials 29, 1807862.
+
+- Method: Synchrotron-radiation FTIR microspectroscopy of myelinated nerve
+- **Result**: Myelin possesses ~2x higher RI than surroundings in mid-IR to THz range
+- Myelin sheath (~2 um thick) confines IR field energy and enables **millimeter-scale propagation** without dramatic energy loss
+- **First experimental confirmation** of dielectric waveguide function in myelin
+
+### 10.7 Frede, Zadeh-Haghighi & Simon 2024 — Node Transmission Modeling
+
+**Paper**: IEEE JSTQE (2024), bioRxiv 2023.03.30.534951.
+
+- Parameters: lambda = 612 nm, r_inner = 3 um, r_outer = 5 um
+- Polarization well preserved through multiple nodes (Stokes parameters tracked)
+- Transmission losses approximately multiplicative: T(N nodes) ~ T_single^N
+- Both linearly and circularly polarized inputs tested
+- System behaves as series of nearly independent scattering elements
+
+### 10.8 Chen, Wang & Dai 2020 — Spectral Aging of Brain Biophotons
+
+**Paper**: Brain Research 1749, 147133.
+
+- Tissue: Mouse brain, ages newborn through 18 months
+- **Result**: Glutamate-induced biophotonic emissions blueshift from young to old mice
+- Consistent with Zeng et al. 2022 prediction: -94.5 nm/um diameter shift per unit change in myelin geometry
+
+### 10.9 Zarkeshian et al. 2022 — Photonic Neural Computation
+
+**Paper**: "Photons guided by axons may enable backpropagation-based learning in the brain." Scientific Reports.
+
+- Proposes biophoton backward propagation as mechanism for biological credit assignment
+- First concrete computational model of photon-mediated neural learning
+
+### 10.10 2025 iScience — Brain UPE as Activity Marker
+
+**Paper**: "Exploring ultraweak photon emissions as optical markers of brain activity." iScience (2025).
+
+- Brain UPEs differ from background in spectral and entropic properties
+- Respond dynamically to tasks and stimulation
+- Correlate with neural activity
+- Latest evidence supporting functional role of brain biophotons
