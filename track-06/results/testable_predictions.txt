@@ -1,0 +1,68 @@
+======================================================================
+TESTABLE PREDICTIONS: Biophoton Biomarkers in Demyelination
+======================================================================
+
+
+--- Preclinical ---
+  Photon count          AUC = 1.000  Cohen's d = +3.26
+  Spectral shift        AUC = 1.000  Cohen's d = +18.66
+  SO2/carbonyl          AUC = 0.900  Cohen's d = +1.50
+  g2(0)                 AUC = 0.526  Cohen's d = +0.09
+  Combined              AUC = 1.000  Cohen's d = +7.76
+
+--- Early clinical ---
+  Photon count          AUC = 1.000  Cohen's d = +3.67
+  Spectral shift        AUC = 1.000  Cohen's d = +53.65
+  SO2/carbonyl          AUC = 0.959  Cohen's d = +1.87
+  g2(0)                 AUC = 0.571  Cohen's d = +0.25
+  Combined              AUC = 1.000  Cohen's d = +9.35
+
+--- Moderate ---
+  Photon count          AUC = 1.000  Cohen's d = +3.79
+  Spectral shift        AUC = 1.000  Cohen's d = +115.37
+  SO2/carbonyl          AUC = 0.991  Cohen's d = +2.30
+  g2(0)                 AUC = 0.654  Cohen's d = +0.56
+  Combined              AUC = 1.000  Cohen's d = +10.63
+
+--- Severe ---
+  Photon count          AUC = 1.000  Cohen's d = +3.74
+  Spectral shift        AUC = 1.000  Cohen's d = +179.78
+  SO2/carbonyl          AUC = 0.975  Cohen's d = +2.03
+  g2(0)                 AUC = 0.741  Cohen's d = +0.91
+  Combined              AUC = 1.000  Cohen's d = +19.17
+
+--- Active relapse ---
+  Photon count          AUC = 1.000  Cohen's d = +3.86
+  Spectral shift        AUC = 1.000  Cohen's d = +129.29
+  SO2/carbonyl          AUC = 1.000  Cohen's d = +3.32
+  g2(0)                 AUC = 0.673  Cohen's d = +0.63
+  Combined              AUC = 1.000  Cohen's d = +7.20
+
+======================================================================
+KEY PREDICTIONS:
+======================================================================
+
+1. SPECTRAL BLUESHIFT: Demyelinated tissue should show a measurable
+   blueshift of ~52.3 nm per lost myelin layer. At 30% demyelination
+   (~9 layers lost), this is a ~470 nm shift -- easily detectable.
+
+2. EMISSION INTENSITY: Lateral biophoton emission should increase
+   10-100x during active inflammation due to lipid peroxidation.
+   This is the most sensitive early biomarker (detectable at <5% loss).
+
+3. SINGLET OXYGEN SIGNATURE: The 634/703 nm emission peaks from
+   singlet oxygen should be elevated in autoimmune demyelination
+   but not in toxic demyelination (cuprizone) -- a mechanistic
+   discriminator.
+
+4. PHOTON CORRELATIONS: g^(2)(0) should decrease from >1 (bunched,
+   entangled pairs) toward 1 (classical) as myelin thins. This is
+   the most specific but least sensitive biomarker.
+
+5. COMBINED SCORE: A multi-parameter composite score achieves AUC > 0.8
+   at moderate disease stages -- potentially clinically useful.
+
+6. REMYELINATION MONITORING: Spectral shift should partially reverse
+   during remyelination therapy, but stabilize at an intermediate
+   value (thinner remyelinated sheaths) -- unique pharmacodynamic
+   biomarker.

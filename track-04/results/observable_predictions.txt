@@ -1,0 +1,45 @@
+Track 04: Observable Predictions
+============================================================
+
+--- g^(2)(0) Predictions ---
+  thermal     : g^(2)(0) = 2.00
+  coherent    : g^(2)(0) = 1.00
+  fock_1      : g^(2)(0) = 0.00
+  squeezed    : g^(2)(0) = 6.68
+  biphoton    : g^(2)(0) = 101.00
+
+--- Bell Inequality ---
+  eta=0.30: S = 0.229 (no violation)
+  eta=0.50: S = 0.636 (no violation)
+  eta=0.70: S = 1.247 (no violation)
+  eta=0.90: S = 2.062 (VIOLATION)
+  eta=0.95: S = 2.297 (VIOLATION)
+
+--- Entanglement vs Thickness ---
+  Peak S = 0.0600 bits at d = 2.50 um
+  Peak K = 1.01
+
+--- Quantum vs Classical Discrimination ---
+  g2_zero:
+    Quantum:   >2 (biphoton)
+    Classical: <=2 (thermal)
+  spectral_correlation:
+    Quantum:   anti-correlated
+    Classical: none
+  bell_inequality:
+    Quantum:   S>2
+    Classical: S<=2
+  mandel_Q:
+    Quantum:   Q<0 possible
+    Classical: Q>=0
+
+--- Parameter Regime ---
+  wavelength_range_um: (1.8, 4.0)
+  Q_factor_range: (3, 50)
+  coupling_regime: weak
+  cooperativity_range: (0.0001, 0.01)
+  decoherence_time_ps: (0.5, 2.0)
+  coherence_length_um: (1, 10)
+  thermal_photon_number: 1e-06
+  entanglement_type: frequency-time
+  optimal_thickness_um: (0.8, 1.1)

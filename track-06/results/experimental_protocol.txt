@@ -1,0 +1,63 @@
+======================================================================
+EXPERIMENTAL PROTOCOL: Biophoton Detection in Demyelinating Disease
+Track 06 -- Demyelination & Pathology
+======================================================================
+
+OBJECTIVE: Test that demyelination alters biophoton emission
+from neural tissue using established animal models.
+
+HYPOTHESIS: Demyelinated nerve emits biophotons with (a) spectral
+blueshift, (b) increased intensity during inflammation, (c) reduced
+photon-photon correlations vs healthy myelinated tissue.
+
+EXPERIMENT 1: EAE Mouse Model (Optic Nerve, Ex Vivo)
+-------------------------------------------------------
+MOG35-55-induced EAE in C57BL/6, n=8/timepoint x 3 groups x 5 = 120
+
+  Time point                     Emission   Fold  SNR(1h)   t(SNR=5)
+  --------------------------------------------------------------------
+  Baseline (day 0)                   10.0   1.0x    175.2         3s
+  Pre-symptomatic (day 7)           111.0  11.1x    598.2         0s
+  Onset (day 10-12)                 515.0  51.5x   1291.0         0s
+  Peak (day 14-18)                  927.5  92.8x   1733.0         0s
+  Chronic (day 28+)                 172.5  17.2x    746.4         0s
+
+EXPERIMENT 2: Cuprizone (Corpus Callosum, Longitudinal)
+-------------------------------------------------------
+0.2% cuprizone 6 weeks then normal chow, n=12/group x 2 = 24
+
+  Time point                       Emission         Fold  SNR(1h)
+  ----------------------------------------------------------------
+  Week 0 (baseline)                    10.0         1.0x    175.2
+  Week 1-2 (OL stress)                162.5        16.2x    724.4
+  Week 3 (microglial)                 370.0        37.0x   1094.1
+  Week 4-5 (active)                   537.5        53.8x   1319.0
+  Week 6 (peak loss)                  352.5        35.2x   1067.8
+  Week 8 (early remyel)               140.0        14.0x    672.2
+  Week 12 (remyelinated)               72.5         7.2x    482.8
+
+EXPERIMENT 3: LPC Focal Lesion (Sciatic Nerve, In Vivo)
+-------------------------------------------------------
+LPC injection, n=10, left sciatic LPC, right vehicle, days 3/7/14/21
+
+DETECTION: EM-CCD (Hamamatsu ImagEM X2), PMT (H7421-40), SPADs (HBT)
+CONTROLS: Dark counts, heat-killed, contralateral, TTX, NAC, sham
+STATS: Two-way ANOVA, paired t-test, Bonferroni, Cohen's d
+
+===========================================================================
+SAMPLE SIZE REQUIREMENTS (alpha=0.05, power=0.80, two-sided)
+===========================================================================
+Scenario                            Effect (d)    N/group    N total
+---------------------------------------------------------------------------
+Preclinical (emission intensity)           0.3         89        178
+Preclinical (spectral shift)               0.2        198        396
+Early clinical (emission)                  0.8         14         28
+Early clinical (spectral)                  0.6         23         46
+Moderate (emission)                        1.5          5         10
+Moderate (spectral shift)                  1.2          7         14
+Severe (emission)                          2.5          3          6
+Active inflammation (emission)             3.0          2          4
+g2(0) decrease (moderate)                  0.5         33         66
+Combined score (moderate)                  1.0          9         18
+Remyelination reversal                     0.7         18         36
+---------------------------------------------------------------------------
