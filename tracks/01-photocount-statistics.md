@@ -916,3 +916,76 @@ Key numerical methods:
 - Cox process: Ornstein-Uhlenbeck log-intensity with Euler-Maruyama integration
 - Bayesian evidence: Analytic Gamma-Poisson conjugate for Poisson; Laplace approximation for NB
 - Monte Carlo: Reproducible via numpy.random.Generator with fixed seeds
+
+---
+
+## 10. Recent Experimental Literature (Deep Research, Feb 2026)
+
+### 10.1 Recent Biophoton Photocount Experiments (2020-2026)
+
+**Benfatto et al. (2023, Entropy)**: Measured Fano factor F=1.43 (early germination, mean count 1.56) and F=1.25 (late germination, mean count 27.25) from lentil seeds. All measurements super-Poissonian. No sub-Poissonian statistics observed.
+
+**Gallep & Moraes (2016, J. Photochem. Photobiol. B)**: Mung bean photocount distributions follow negative binomial; Fano factor trends from ~1.5 toward 1.0 over 6 days of growth as signal-to-dark ratio improves.
+
+**Scordo et al. (2025, Entropy)**: First biophoton measurements from astrocyte and glioblastoma cell cultures using INFN ultra-sensitive apparatus. Clear signal-dark separation. DEA shows anomalous diffusion.
+
+**De Paolis et al. (2024, Applied Sciences)**: "Biophotons: A Hard Problem" — effectively concedes that photocount statistics alone cannot resolve quantum vs. classical origin.
+
+### 10.2 Mandel Q Measurements — The Definitive Status
+
+**No sub-Poissonian (Q < 0) measurements have been reported in any careful modern study.** Every measurement since 2016 reports Q > 0 (super-Poissonian).
+
+The only sub-Poissonian claims (Popp & Chang 2002, Bajpai 2005) have been comprehensively critiqued by Cifra et al. (2015) and never replicated.
+
+| Source | System | Fano Factor | Status |
+|--------|--------|-------------|--------|
+| Benfatto et al. 2023 | Lentils (early) | F = 1.43 | Super-Poissonian |
+| Benfatto et al. 2023 | Lentils (late) | F = 1.25 | Super-Poissonian |
+| Gallep & Moraes 2016 | Mung bean | F = 1.5 → 1.0 | Super-Poissonian trending Poisson |
+| Cifra et al. 2015 | Review | All F >= 1.0 | No sub-Poissonian in literature |
+
+### 10.3 SNSPD Use in Biophoton Detection
+
+**SNSPDs have NOT yet been used for biophoton (UPE) experiments.** This is a major gap and opportunity.
+
+State-of-the-art SNSPD specifications (2024-2025):
+- Quantum efficiency: up to **98%** (vs ~25% for cooled PMTs)
+- Dark count rate: as low as **7 mHz** (6x10^-6 cps) — vs ~10 cps for PMTs
+- Timing jitter: 7.7 ps
+- Operating temperature: 0.8-2.5 K (cryogenic)
+- Active area: ~20 um (small)
+- Cost: $200k-$500k per system
+
+SNSPDs would transform biophoton measurements by virtually eliminating dark counts and enabling true g^(2)(tau) correlation measurements at biophoton intensities.
+
+**Practical barrier**: SPAD detectors (intermediate option, QE ~50-80%) emit photons during avalanche breakdown, which can interfere with UPE measurements (Cifra et al. 2024 review).
+
+### 10.4 Bajpai's Squeezed-State Claims — Current Status
+
+**Effectively refuted.** The Cifra et al. (2015) critique remains unchallenged in peer-reviewed literature. Key points:
+- No independent replication of sub-Poissonian claims has ever been published
+- Bajpai's later work (2015, J. Nonlocality) published in non-mainstream venue
+- All recent experiments (2021-2025) report super-Poissonian statistics
+- The Italian INFN group has shifted from quantum state claims to temporal complexity analysis (DEA)
+
+### 10.5 Neural Tissue Emission Rates — Measured Values
+
+| Source | System | Emission Rate | Notes |
+|--------|--------|---------------|-------|
+| Bhatt et al. 2025 | Neuro-2a cells | ~12 photons/s baseline | Cultured |
+| Tang & Dai 2014 | Per-neuron estimate | ~1 photon/neuron/minute | Calculated |
+| Zangari et al. 2021 | General neural tissue | 2-200 photons/s/cm² | Range |
+| Isojima et al. 1995 | Rat hippocampus (ex vivo) | ~10^-11 W/m² | PMT measurement |
+| Kobayashi et al. 2009 | Human cheek (peak) | ~3000 photons/s/cm² | CCD imaging |
+| Bhatt et al. 2025 | Human transcranial | Above dark counts | Correlated with EEG |
+| Sefati et al. 2024 | Alzheimer's rat hippocampus | Correlates with AD markers | Disease model |
+| Oblak et al. 2025 | Post-mortem brain/eyes/liver | Persists ~1 hour after death | Time-decay measured |
+
+**For the myelin-specific program**: The most relevant values are ~1 photon/neuron/minute (Tang & Dai) and 2-200 photons/s/cm² general neural tissue (Zangari). These are the input rates for waveguide transport modeling (Track 03) and the detection feasibility calculations (Track 05).
+
+### 10.6 Implications for This Track
+
+1. **Photocount statistics cannot distinguish coherent from classical** — confirmed by all modern experiments and our computational results (Section 8). The field consensus now agrees.
+2. **Alternative approaches are essential**: g^(2)(tau) correlations with SNSPDs, HBT interferometry, temporal complexity analysis (DEA/DFA).
+3. **SNSPD deployment is the #1 experimental priority** — would improve dark count rates by ~10^6x over PMTs.
+4. **Neural-specific measurements are scarce** — only Tang & Dai, Bhatt, and Zangari have measured from neural tissue directly. This is the experimental frontier.
