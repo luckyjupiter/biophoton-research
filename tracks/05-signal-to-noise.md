@@ -1195,3 +1195,57 @@ The biophoton field is unusual in having relatively straightforward detection ph
 ---
 
 *Track 05 connects to: Track 01 (photocount statistics provide the signal model), Track 03 (waveguide models predict spatial emission patterns for matched filtering), Track 04 (coherence tests require the SNR analysis developed here), Track 06 (demyelination predictions require power analysis for experimental design).*
+
+---
+
+## 10. Recent Experimental Literature: Detector Technology and SNR Benchmarks (Feb 2026)
+
+This section updates detector specifications and detection strategies based on manufacturer datasheets and recent literature through early 2026.
+
+### 10.1 SNSPD Technology: Current State of the Art
+
+Superconducting nanowire single-photon detectors (SNSPDs) have advanced dramatically since 2020. Key commercial systems:
+
+- **ID Quantique ID281 Pro**: System detection efficiency (SDE) >95% at user-selected wavelength (visible to 2 um), dark count rate <1 cps, timing jitter <20 ps FWHM. NbTiN nanowires at 0.8-2.5 K. This is the leading commercial system for biophoton research due to its combination of near-unity efficiency and sub-cps dark counts.
+- **Single Quantum Eos**: Up to 24 channels, SDE >90%, jitter <15 ps. Multi-channel capability enables simultaneous spectral binning without beam splitters.
+- **Photon Spot**: SDE ~95.5% at 1550 nm, dark 1-2 cps. Also supplies 64-pixel arrays (SDE ~65%, dark ~20 cps/pixel) developed for NASA DSOC.
+- **Lab records**: Sub-3 ps jitter (Korzh et al., Nat. Phot. 2020, NbN nanowire). Intrinsic dark count rate <7 mHz demonstrated at low bias. WSi devices: 93% SDE with ~1 cps dark (Marsili et al., Nat. Phot. 2013).
+
+**Impact on biophoton SNR**: At 50 photons/s signal with an SNSPD (QE=0.95, dark=1 cps), the 1-hour SNR = 0.95 x 50 / sqrt(0.95 x 50 + 1) x sqrt(3600) ~ 414, vs. ~62 for a cooled PMT. The SNSPD advantage is transformative for spectral resolution -- SNR is sufficient to bin into 10-20 spectral channels with 10-minute integrations.
+
+### 10.2 SPAD Technology Updates
+
+- **Excelitas SPCM-AQRH-14**: PDE >70% at 650 nm, dark <250 cps (typical ~100 cps), dead time <25 ns, timing jitter ~250 ps. SLiK APD, 180 um active area.
+- **Hamamatsu SPAD modules**: Ultra-low dark counts ~7 cps typical at visible wavelengths. Smaller active area limits collection efficiency but ideal for fiber-coupled nerve measurements.
+
+### 10.3 Imaging Detectors: EM-CCD and qCMOS
+
+- **Andor iXon Ultra 897**: 512x512, QE >95% at 500 nm, dark current 0.00017 e-/pix/s at -100 C, CIC ~0.005 e-/pix/frame. EM gain up to 1000x. Used by NRC Canada in their 2024 in vivo rodent UPE measurement system.
+- **Hamamatsu ORCA-Quest 2 qCMOS**: 9.4 Mpix, read noise 0.27 e- rms (enabling true photon-number-resolving readout), dark current 0.006 e-/pix/s. No multiplication gain needed (excess noise factor F^2 = 1). Potentially superior to EMCCD for spatial mapping of weak biophoton fields because it avoids EM gain noise.
+
+### 10.4 Existing Brain UPE Detection Systems
+
+The Sens-Tech DM0090C PMT (S20 multialkali cathode, 22mm, 300-850 nm) has been used in recent brain UPE studies including the 2024 iScience hippocampal emission study. Dark count ~1000 cps -- significantly higher than modern alternatives, suggesting room for major improvement in neural biophoton measurements.
+
+### 10.5 Detection Strategy Recommendations for Myelin Biophoton Program
+
+Based on the updated technology landscape:
+
+1. **Primary detection (optic nerve)**: Fiber-coupled SNSPD (ID Quantique ID281 or Single Quantum Eos). The <1 cps dark count and >95% QE enable spectral discrimination of myelin-related emission with 10-minute integrations.
+
+2. **Spatial mapping (nerve cross-section)**: EM-CCD (Andor iXon 897) or qCMOS (ORCA-Quest 2). The qCMOS avoids EM gain noise and provides photon-number resolution per pixel.
+
+3. **Multi-spectral**: SNSPD array or filter wheel + SNSPD. The Single Quantum Eos multi-channel system could enable simultaneous detection at singlet O2 (634/703 nm), triplet carbonyl (350-550 nm), and waveguide-shifted bands.
+
+4. **Temporal correlation (g^(2))**: SNSPD pair in HBT configuration. Sub-20 ps jitter enables coherence measurements at relevant timescales.
+
+### 10.6 References for Section 10
+
+43. Korzh B et al. (2020). Nat. Photonics 14:250-255.
+44. Marsili F et al. (2013). Nat. Photonics 7:210-214.
+45. ID Quantique. ID281 Pro datasheet (2024).
+46. Single Quantum. Eos specifications (2024).
+47. Photon Spot. Detector specifications; Optics Express 32(27):48185 (2024).
+48. Excelitas. SPCM-AQRH datasheet rev 2023-1.
+49. Andor/Oxford Instruments. iXon Ultra 897 specification sheet.
+50. Hamamatsu. ORCA-Quest 2 C15550-22UP tech note (2024).

@@ -36,8 +36,21 @@ def _snspd_qe(wl_nm):
     qe = np.array([0.50,0.85,0.93,0.93,0.92,0.90,0.88,0.85,0.80,0.70,0.50])
     return np.clip(interp1d(wl,qe,kind="linear",bounds_error=False,fill_value=0.0)(wl_nm),0,1)
 
-QE_CURVES = {"bialkali":_bialkali_qe,"gaas":_gaas_qe,"si_spad":_si_spad_qe,
-             "back_illuminated_ccd":_biccd_qe,"snspd":_snspd_qe}
+def _s20_qe(wl_nm):
+    """S20 multialkali cathode (e.g., Sens-Tech DM0090C): 300-850nm range."""
+    wl = np.array([200,300,350,400,450,500,550,600,650,700,750,800,850,900])
+    qe = np.array([0.0,0.08,0.14,0.18,0.17,0.15,0.10,0.06,0.03,0.015,0.008,0.003,0.001,0.0])
+    return np.clip(interp1d(wl,qe,kind="linear",bounds_error=False,fill_value=0.0)(wl_nm),0,1)
+
+def _qcmos_qe(wl_nm):
+    """Hamamatsu ORCA-Quest 2 qCMOS: QE~85% peak, extended UV in v2."""
+    wl = np.array([300,350,400,450,500,550,600,650,700,750,800,850,900,950,1000])
+    qe = np.array([0.25,0.55,0.78,0.85,0.85,0.82,0.78,0.70,0.58,0.42,0.25,0.10,0.03,0.01,0.0])
+    return np.clip(interp1d(wl,qe,kind="linear",bounds_error=False,fill_value=0.0)(wl_nm),0,1)
+
+QE_CURVES = {"bialkali":_bialkali_qe,"s20":_s20_qe,"gaas":_gaas_qe,
+             "si_spad":_si_spad_qe,"back_illuminated_ccd":_biccd_qe,
+             "qcmos":_qcmos_qe,"snspd":_snspd_qe}
 
 @dataclass
 class DetectorParams:
@@ -51,13 +64,36 @@ class DetectorParams:
     timing_jitter: float = 1e-9
     collection_area: float = 5.0
 
-PMT_PARAMS = DetectorParams("PMT (Cooled Bialkali)","bialkali",0.20,30.0,0.02,50e-9,15e-9,0.5e-9,5.0)
-PMT_GAAS_PARAMS = DetectorParams("PMT (GaAsP)","gaas",0.40,50.0,0.03,60e-9,15e-9,0.3e-9,5.0)
-SPAD_PARAMS = DetectorParams("SPAD (Si)","si_spad",0.65,50.0,0.03,40e-9,50e-9,50e-12,0.002)
-EMCCD_PARAMS = DetectorParams("EM-CCD (BI)","back_illuminated_ccd",0.92,0.001,0.0,0.0,0.0,0.033,0.07)
-SNSPD_PARAMS = DetectorParams("SNSPD","snspd",0.93,0.1,0.0,0.0,30e-9,30e-12,0.0003)
-ALL_DETECTORS = {"pmt_bialkali":PMT_PARAMS,"pmt_gaas":PMT_GAAS_PARAMS,
-                 "spad":SPAD_PARAMS,"emccd":EMCCD_PARAMS,"snspd":SNSPD_PARAMS}
+# --- Detector presets updated Feb 2026 from manufacturer datasheets ---
+
+# Hamamatsu R6095 bialkali, cooled -20C. Standard biophoton workhorse.
+PMT_PARAMS = DetectorParams("PMT (Cooled Bialkali, R6095)","bialkali",0.20,30.0,0.02,50e-9,15e-9,0.5e-9,5.0)
+# Hamamatsu GaAsP (H7421-40). QE ~40% at 500nm.
+PMT_GAAS_PARAMS = DetectorParams("PMT (GaAsP, H7421-40)","gaas",0.40,50.0,0.03,60e-9,15e-9,0.3e-9,5.0)
+# Sens-Tech DM0090C: S20 cathode, 22mm, 300-850nm. Dark ~1000 cps. Used in brain UPE.
+PMT_SENSTECH_PARAMS = DetectorParams("PMT (Sens-Tech DM0090C)","s20",0.15,1000.0,0.02,50e-9,15e-9,0.5e-9,3.8)
+# Excelitas SPCM-AQRH-14: PDE >70% @650nm, dark <250 cps, dead <25ns, jitter ~250ps.
+SPAD_PARAMS = DetectorParams("SPAD (Excelitas SPCM-AQRH)","si_spad",0.70,100.0,0.03,40e-9,25e-9,100e-12,0.0003)
+# Hamamatsu SPAD: ultra-low dark ~7 cps.
+SPAD_HAMAMATSU_PARAMS = DetectorParams("SPAD (Hamamatsu)","si_spad",0.65,7.0,0.01,30e-9,40e-9,80e-12,0.0003)
+# Andor iXon Ultra 897: QE>95%, dark 0.00017 e-/pix/s @-100C, CIC ~0.005.
+EMCCD_PARAMS = DetectorParams("EM-CCD (Andor iXon 897)","back_illuminated_ccd",0.95,0.00017,0.0,0.0,0.0,0.033,0.07)
+# Hamamatsu ORCA-Quest 2 qCMOS: read noise 0.27e-, dark 0.006 e-/pix/s.
+QCMOS_PARAMS = DetectorParams("qCMOS (ORCA-Quest 2)","qcmos",0.85,0.006,0.0,0.0,0.0,0.033,0.002)
+# ID Quantique ID281 Pro: SDE >95%, dark <1 cps, jitter <20ps.
+SNSPD_PARAMS = DetectorParams("SNSPD (ID Quantique ID281)","snspd",0.95,1.0,0.0,0.0,30e-9,8e-12,0.0003)
+# Single Quantum Eos: up to 24 channels, SDE >90%, jitter <15ps.
+SNSPD_SQ_PARAMS = DetectorParams("SNSPD (Single Quantum Eos)","snspd",0.90,1.0,0.0,0.0,30e-9,6e-12,0.0003)
+# Photon Spot: SDE ~95.5% @1550nm, dark 1-2 cps, jitter ~50ps.
+SNSPD_PS_PARAMS = DetectorParams("SNSPD (Photon Spot)","snspd",0.93,2.0,0.0,0.0,10e-9,20e-12,0.0003)
+
+ALL_DETECTORS = {
+    "pmt_bialkali": PMT_PARAMS, "pmt_gaas": PMT_GAAS_PARAMS,
+    "pmt_senstech": PMT_SENSTECH_PARAMS,
+    "spad_excelitas": SPAD_PARAMS, "spad_hamamatsu": SPAD_HAMAMATSU_PARAMS,
+    "emccd": EMCCD_PARAMS, "qcmos": QCMOS_PARAMS,
+    "snspd_idq": SNSPD_PARAMS, "snspd_sq": SNSPD_SQ_PARAMS, "snspd_ps": SNSPD_PS_PARAMS,
+}
 
 def generate_photon_arrivals(rate, duration, rng=None):
     if rng is None: rng = np.random.default_rng()
@@ -119,18 +155,32 @@ def simulate_detector(signal_rate, duration, params, rng=None):
 
 @dataclass
 class EMCCDParams:
-    name: str = "EM-CCD (BI)"
-    qe: float = 0.92
+    """Full EMCCD model for frame-level simulation (Andor iXon Ultra 897)."""
+    name: str = "EM-CCD (Andor iXon Ultra 897)"
+    qe: float = 0.95
     em_gain: float = 300.0
     excess_noise_factor_sq: float = 2.0
     read_noise_e: float = 50.0
-    dark_current: float = 0.001
+    dark_current: float = 0.00017  # e-/pixel/s at -100C (Andor spec)
     cic_rate: float = 0.005
     n_pixels_x: int = 512
     n_pixels_y: int = 512
     pixel_size_um: float = 16.0
     frame_time: float = 1.0
     photon_counting_threshold: float = 5.0
+
+@dataclass
+class QCMOSParams:
+    """Hamamatsu ORCA-Quest 2 qCMOS for photon-number-resolving imaging."""
+    name: str = "qCMOS (Hamamatsu ORCA-Quest 2)"
+    qe: float = 0.85
+    read_noise_e: float = 0.27    # e- rms (ultra-quiet scan mode)
+    dark_current: float = 0.006   # e-/pixel/s (water-cooled)
+    n_pixels_x: int = 4096
+    n_pixels_y: int = 2304
+    pixel_size_um: float = 4.6
+    frame_time: float = 1.0
+    pnr_max: int = 200
 
 def simulate_emccd_frame(signal_rate_per_pixel, params, rng=None):
     if rng is None: rng = np.random.default_rng()
@@ -158,7 +208,7 @@ def main():
     rng = np.random.default_rng(42)
     print("Signal rate: %.1f photons/s, Duration: %.1f hr" % (signal_rate, duration/3600))
     for key, params in ALL_DETECTORS.items():
-        if key == "emccd": continue
+        if key in ("emccd", "qcmos"): continue
         r = simulate_detector(signal_rate, duration, params, rng)
         tr = r["n_total"] / duration; sr = r["n_detected_signal"] / duration
         print("\n--- %s ---" % params.name)
