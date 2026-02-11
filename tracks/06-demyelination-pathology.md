@@ -709,3 +709,147 @@ If demyelination measurably alters biophoton transmission, it would provide the 
 
 24. **Salari V, Valian H, Bassereh H, Bokkon I, Barkhordari A** (2015). "Ultraweak photon emission in the brain." *Journal of Integrative Neuroscience* 14(3):419-429.
     - Reviews evidence for biophoton emission in neural tissue and its potential functional significance. Sets the context for why demyelination-induced changes would be biologically meaningful.
+
+---
+
+## 8. Computational Disease Models
+
+The following computational models implement the theoretical framework of Sections 3-4 in working Python code. All code is in `worktrees/track-06/src/` and can be run standalone.
+
+### 8.1 Demyelination Progression Model
+
+We implement the parametric waveguide model (Section 4.1) with three pathological parameters evolving as sigmoid functions of time:
+
+- **Thickness factor** alpha(t): Myelin thickness remaining, modelled as logistic decay
+- **Continuity factor** gamma(t): Fraction of internode with intact myelin
+- **Regularity factor** rho(t): Uniformity of remaining myelin structure
+
+These drive the waveguide observables:
+
+```
+n_eff(alpha, rho) = n_ECF + alpha * rho * (n_myelin - n_ECF)
+lambda_op(alpha) = lambda_healthy - (1 - alpha) * N_layers * 52.3 nm
+alpha_prop = alpha_0 / (alpha * gamma * rho) + L_junction * (1 - gamma) / l_internode
+```
+
+The coherence field Lambda is governed by the M-Phi ODE:
+
+```
+dLambda/dt = g * |Psi|^2 * Phi  -  kappa(t) * Lambda
+```
+
+where kappa(t) increases as myelin degrades (kappa scales as 1/alpha^2 reflecting the structural decoherence mechanism).
+
+**Key finding:** Over a 20-week progressive demyelination timeline, Lambda decays from 1.0 to approximately 0.02 -- a 50-fold reduction in coherence. The initial decay is slow (weeks 0-5 while alpha is still near 1) but accelerates dramatically once myelin integrity drops below ~0.5, due to the quadratic dependence of kappa on myelin loss.
+
+### 8.2 MS Subtype Models
+
+Three distinct temporal patterns are modelled:
+
+**RRMS (Relapsing-Remitting):**
+Relapses are generated as a Poisson process (mean 1/year) with each relapse causing 15% loss of remaining myelin over 6 weeks, followed by 85% recovery. The net effect is a sawtooth decline: by year 20, myelin integrity reaches approximately 0.40-0.55 depending on relapse timing. The biophoton signature shows sharp emission spikes during relapses (inflammation) with spectral blueshift accumulating stepwise.
+
+**SPMS (Secondary Progressive):**
+Starting from a post-RRMS baseline of ~65% myelin integrity, the model applies 3% annual exponential decay with chronic low-grade inflammation. By year 15, myelin drops to ~0.40. The biophoton signature is characterized by a steady spectral drift without the sharp emission spikes of RRMS -- a distinguishing feature.
+
+**PPMS (Primary Progressive):**
+Starting from full myelin, 4% annual exponential decay with minimal inflammation. The biophoton signature shows gradual spectral blueshift and slowly declining coherence without inflammatory emission spikes. PPMS produces the most monotonic trajectory, making it the easiest subtype to distinguish from RRMS by temporal pattern analysis.
+
+### 8.3 Kappa Decomposition Model
+
+The decoherence rate kappa is decomposed into four physically motivated components:
+
+| Component | Mechanism | Healthy Value | Dependence |
+|-----------|-----------|---------------|------------|
+| kappa_thermal | Thermal fluctuations at body temperature | 0.02 s^-1 | Arrhenius with E_a/k_B ~ 4000 K |
+| kappa_structural | Scattering from myelin disorder | 0.01 s^-1 | 1/m^2 (diverges as myelin disappears) |
+| kappa_ROS | Oxidative damage to chromophores | 0.01 s^-1 | Linear with ROS concentration |
+| kappa_inflammatory | Cytokine-driven disruption | ~0 s^-1 | Hill function (K=0.3, n=2) |
+| **Total (healthy)** | | **0.04 s^-1** | |
+
+Disease-state results:
+
+| Scenario | kappa_total (s^-1) | Lambda_ss | Fold increase in kappa |
+|----------|-------------------|-----------|----------------------|
+| Healthy | 0.040 | 0.0250 | 1.0x |
+| Mild (early MS) | 0.208 | 0.0048 | 5.2x |
+| Moderate (active MS) | 0.499 | 0.0020 | 12.5x |
+| Severe (late MS) | 0.411 | 0.0024 | 10.3x |
+| Acute relapse | 0.661 | 0.0015 | 16.5x |
+
+The dominant contributor shifts with disease stage: structural disorder dominates in severe chronic disease (kappa_structural ~ 0.11 at 30% myelin integrity), while inflammatory decoherence dominates during acute relapses (kappa_inflammatory ~ 0.35 at inflammation level 0.9).
+
+### 8.4 Biomarker Diagnostic Performance
+
+Five candidate biomarkers were evaluated using simulated measurement distributions at five disease stages:
+
+1. **Photon count** (total emission intensity)
+2. **Spectral shift** (peak wavelength blueshift)
+3. **SO2/carbonyl ratio** (singlet oxygen vs triplet carbonyl emission)
+4. **g^(2)(0)** (second-order photon correlation)
+5. **Combined score** (z-score composite of all four)
+
+ROC analysis reveals a hierarchy of diagnostic sensitivity:
+
+- **Most sensitive early:** SO2/carbonyl ratio and photon count detect preclinical changes (AUC > 0.6 at 5% myelin loss) due to inflammatory amplification.
+- **Most specific:** Spectral shift provides the most direct readout of myelin structural damage, achieving AUC > 0.9 at moderate disease.
+- **Least sensitive:** g^(2)(0) requires substantial demyelination (>30% loss) for reliable detection, but is the most theoretically specific marker of myelin cavity integrity.
+- **Best overall:** The combined multi-parameter score achieves AUC > 0.8 at moderate disease stages, outperforming any single biomarker by leveraging complementary information.
+
+### 8.5 Experimental Protocol Predictions
+
+Quantitative predictions for three proposed experiments:
+
+**EAE Model (Optic Nerve):**
+
+| Time Point | Predicted Emission (ph/s/cm^2) | Fold Change | SNR (1h) |
+|------------|-------------------------------|-------------|----------|
+| Baseline | 10.0 | 1.0x | 180 |
+| Pre-symptomatic (day 7) | 111.0 | 11.1x | 598 |
+| Onset (day 10-12) | 515.0 | 51.5x | 1288 |
+| Peak (day 14-18) | 927.5 | 92.8x | 1729 |
+| Chronic (day 28+) | 172.5 | 17.3x | 746 |
+
+The peak-to-baseline ratio of ~93x during maximal EAE inflammation should be readily detectable with standard single-photon counting equipment.
+
+**Cuprizone Model (Corpus Callosum):**
+Peak emission at week 6 (85% demyelination): 542.5 ph/s/cm^2 (54x baseline). Remyelination (week 12) reduces emission to 172.5 ph/s/cm^2 but with persistent spectral shift reflecting thinner remyelinated sheaths.
+
+**Sample Size Requirements:**
+For the primary comparison (moderate demyelination, combined score, Cohen's d ~ 1.0): n = 10 per group achieves 80% power. For early detection (d ~ 0.3): n = 90 per group is required. The cuprizone repeated-measures design needs only n = 12 per group due to within-subject pairing.
+
+---
+
+## 9. Testable Predictions Summary
+
+The computational models generate the following hierarchy of predictions, ordered from most to least testable with current technology:
+
+### Tier 1: Testable Now (ex vivo, animal models)
+
+1. **Active demyelination increases total biophoton emission 10-100x** due to lipid peroxidation. Detectable with standard PMT/EM-CCD in ex vivo nerve preparations from EAE or cuprizone-treated animals.
+
+2. **Emission intensity correlates with histological demyelination score.** Within the same EAE cohort, animals with higher Luxol Fast Blue scores should show lower steady-state emission and greater spectral blueshift.
+
+3. **Cuprizone-induced demyelination produces a characteristic temporal emission profile** (rise during active demyelination, peak at week 6, partial recovery during remyelination) distinguishable from the EAE inflammatory spike pattern.
+
+4. **Antioxidant pre-treatment (NAC) reduces the inflammatory emission component** without affecting the structural spectral shift, confirming two independent emission mechanisms.
+
+### Tier 2: Testable with Specialized Equipment
+
+5. **Spectral blueshift of ~52.3 nm per lost myelin layer** during demyelination, measurable with bandpass filter-equipped PMT or spectrometer. Shadow plaques (remyelinated areas) should show intermediate spectral signatures.
+
+6. **Singlet oxygen emission peaks (634/703 nm) are elevated in autoimmune demyelination** (EAE) relative to toxic demyelination (cuprizone), reflecting MPO activity.
+
+7. **Spatial emission mapping reveals bright spots at demyelination boundaries** in LPC-treated nerves, consistent with waveguide scattering predictions.
+
+### Tier 3: Requires Advanced Quantum Optics
+
+8. **g^(2)(0) > 1 (photon bunching) in healthy myelinated nerve** decreasing toward g^(2)(0) ~ 1 in demyelinated nerve, reflecting loss of entangled pair production in degraded myelin cavities.
+
+9. **Coincidence rates in HBT measurements** correlate with myelin thickness (g-ratio) across different axon populations within the same nerve.
+
+### Tier 4: Long-term Clinical Applications
+
+10. **Transcranial biophoton detection** reveals MS lesion load through the skull, potentially via near-IR (1270 nm singlet oxygen) emission through the optical window.
+
+11. **Wearable biophoton detector** provides continuous monitoring of MS disease activity, with emission spikes predicting clinical relapses days to weeks in advance.
