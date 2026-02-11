@@ -1003,3 +1003,57 @@ The various scaling exponents used in time-series analysis are interrelated:
 | WTMM | 512 | $> 2048$ | CWT computation scales as $O(N \log N)$ |
 
 For a photon source at 10 counts/s with 100 ms bins, $N = 2000$ corresponds to a 200-second recording. Most methods are feasible with recordings of 5--30 minutes, which is typical for biophoton experiments.
+
+---
+
+## 10. Recent Experimental Literature (Deep Research, Feb 2026)
+
+### 10.1 DFA / Hurst Exponent Studies on Biophoton Time Series
+
+**Dlask et al. (2019)** performed the only rigorous DFA/Hurst study directly on biophoton data. Using fractional Brownian bridge (fBB) analysis on mung bean autoluminescence at 10 ms bins, they found **H < 0.5 (anti-correlated / negative memory)**. However, due to very short series lengths (N~50-500), standard deviations were large and p-values did not reach significance. This remains the only published Hurst exponent estimate directly from UPE time series.
+
+**Mahmoodi, Grigolini et al. (2021)** applied Diffusion Entropy Analysis (DEA) to lentil seed biophotons over 72 hours. Found scaling exponent **eta significantly departing from 0.5** throughout germination. Dark counts showed eta=0.5 (as expected for Poisson noise). Complexity transitioned from crucial events (early germination) to FBM-type correlations (late germination).
+
+**Benfatto et al. (2023)** confirmed anomalous diffusion findings. Measured dark count Fano factor **F = 1.43** (super-Poissonian). Used a multi-method pipeline including DFA and MFDFA.
+
+### 10.2 Multifractal Analysis (MFDFA)
+
+**Scholkmann et al. (2011)** applied backward MFDMA to wheat seedling UPE under potassium dichromate stress. Found **Delta_alpha (multifractal spectrum width) was the most discriminating parameter** between control, low-dose, and high-dose groups (p < 0.05), while linear measures (mean, variance) showed no significant difference. This establishes MFDFA as a superior biomarker over simple count statistics.
+
+**Benfatto et al. (2025, arXiv:2511.11080)** developed a comprehensive multi-method pipeline validating MFDFA against surrogates (Poisson, FGN, renewal processes). Demonstrated internal consistency across DFA, MFDFA, DistEn, Renyi entropy, and tail statistics.
+
+### 10.3 Recurrence Quantification Analysis (RQA)
+
+**Belksma (2024)** applied RQA to human palm and forearm UPE. Found **RR = 0.084, DET = 0.176** — indicating intermittent short-lived deterministic structures embedded in largely stochastic emission. Blood flow restriction caused ~15.8% emission decrease. Within-subject CV ranged 37-53%.
+
+### 10.4 Circadian and Ultradian Rhythms
+
+**Kobayashi et al. (2009)** used CCD imaging showing diurnal pattern: emission lowest in morning, peaked at ~16:00 (afternoon). Cheek emission reached **~3000 photons/s/cm² at peak, ~2x the morning value**. Pattern persisted under constant light (endogenous circadian).
+
+**Scholkmann (2023)** documented ultradian, circadian, and infradian rhythms in human UPE. Infradian periods detected at ~14 days, ~1 month, ~3 months, ~9 months.
+
+**Gallep et al. (2012, 2014)** showed wheat seedling UPE has **semi-circadian ~12.4 hour oscillations** synchronized with lunisolar gravimetric tidal acceleration. FFT confirmed tidal-frequency components. Replicated across Brazil, Germany, Japan.
+
+### 10.5 Neural Cell Biophoton Measurements
+
+**Benfatto et al. (2025, Entropy 28:112)** reported the first temporal structure measurements from astrocytes and glioblastoma cell cultures under dark conditions. DEA revealed anomalous diffusion and long-range memory effects. Directly relevant to the myelin waveguide research program.
+
+### 10.6 Key Empirical Parameter Values
+
+| Parameter | Value | Source |
+|-----------|-------|--------|
+| Hurst exponent (mung bean) | H < 0.5 (anti-persistent) | Dlask et al. 2019 |
+| Fano factor (dark counts) | F = 1.43 | Benfatto et al. 2023 |
+| RQA recurrence rate (human palm) | RR = 0.084 | Belksma 2024 |
+| RQA determinism (human palm) | DET = 0.176 | Belksma 2024 |
+| Human cheek UPE peak rate | ~3000 photons/s/cm² | Kobayashi et al. 2009 |
+| Semi-circadian period (seeds) | ~12.4 hours | Gallep et al. 2012 |
+| MFDFA Delta_alpha | Best discriminator (p < 0.05) | Scholkmann et al. 2011 |
+
+### 10.7 Gaps and Opportunities
+
+1. **No direct power spectral density** measurement of biophoton 1/f noise has been published.
+2. **Inter-photon interval (IPI) analysis** and Allan variance remain untested on biophoton data — a clear opportunity.
+3. **Point process methods** for low-count streams are underexplored; the field relies on binned counts rather than raw timestamps.
+4. The **semi-circadian tidal coupling** (Gallep) is striking and deserves cross-method analysis (DFA + MFDFA + RQA).
+5. Neural-tissue-specific temporal structure studies are virtually nonexistent — only the Benfatto astrocyte work exists.
