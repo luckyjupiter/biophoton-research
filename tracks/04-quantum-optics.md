@@ -763,3 +763,61 @@ The most experimentally accessible test is the spectral coincidence measurement:
 ---
 
 *Track 04 prepared for the biophoton-research project. This document provides the quantum-mechanical foundations needed to evaluate the Liu-Chen-Ao model and its implications for neural biophoton research. The key open question remains experimental: can the predicted entangled biphoton pairs be detected and their quantum correlations verified in biological or biomimetic myelin systems?*
+
+---
+
+## 10. Recent Experimental Literature (Deep Research, Feb 2026)
+
+### 10.1 Quantum Coherence in Biological Photon Emission — Current Consensus
+
+**Cifra & Pospisil (2015)**, "Biophotons, coherence and photocount statistics: a critical review" (J. Luminescence 164, 38-51; arXiv:1502.07316): **No reliable evidence for coherence or nonclassicality of UPE has been achieved.** Bajpai's squeezed-state model fits with 4 free parameters, but a 4-parameter classical distribution fits equally well. Popp's hyperbolic decay law is real but does not require quantum coherence.
+
+**Schofield et al. (2024)**, "Biophotons: A Hard Problem" (Applied Sciences 14(13):5496; arXiv:2401.17166): Concluded the two hypotheses (random ROS decay vs. coherent field) are **not mutually exclusive** — both processes may coexist.
+
+### 10.2 Photon Entanglement Through Brain Tissue — Experimental Milestones
+
+**Shi, Galvez & Alfano (2016)**, "Photon Entanglement Through Brain Tissue" (Scientific Reports 6:37714): Transmitted one photon of a polarization-entangled SPDC pair through brain tissue slices. **Entanglement was preserved for ballistic photons.** Decoherence follows a Werner-state (pure depolarization) pathway.
+
+**Galvez & Sharma (2022)** (Biomedical Optics Express 13(12):6621-6630): Entangled photons decohere **less** in Alzheimer's tissue than healthy controls (120-600 um). Suggests quantum state tomography as a diagnostic tool for neurodegenerative disease.
+
+**Shi et al. (2017)**, "Generation of photonic entanglement in green fluorescent proteins" (Nature Communications 8:16027): Spontaneous four-wave mixing in EGFP produced entangled pairs with CAR ~145 and fidelity ~94%. The beta-barrel structure protects against decoherence. **First demonstration of entangled photon generation in a biological molecule.**
+
+**Critical gap**: No experiment has detected entangled photon pairs generated **endogenously** by living tissue as of Feb 2026.
+
+### 10.3 Cavity QED in Biological Structures
+
+**Babcock, Celardo, Kurian et al. (2024)** (J. Phys. Chem. B 128(17):4035; arXiv:2302.01469): UV superradiance from >10^5 tryptophan dipoles in microtubules — **first experimental confirmation of single-photon superradiance in cytoskeletal filaments at room temperature.**
+
+**Mavromatos & Nanopoulos (2002, updated 2025)**: Microtubule interiors as high-Q QED cavities with decoherence times ~1 us. Updated assessment (arXiv:2505.20364) examining scalable quantum computation potential.
+
+**Vergauwe, Thomas & Ebbesen (2019)**: Vibrational strong coupling modifying enzyme activity (pepsin ~4.5x decrease) — the **same physics** as the Liu-Chen-Ao cavity QED model, experimentally confirmed in a biological system.
+
+### 10.4 g^(2) Correlation Measurements — The Critical Gap
+
+**No published HBT measurement on endogenous UPE exists.** This is the single most important missing experiment in biophoton research. Technical barriers: ultra-low count rates (1-100 photons/s/cm^2), broadband spectrum, no local oscillator available, detector dark counts comparable to signal.
+
+### 10.5 SPDC Analogues in Biology — Not Viable
+
+Lipid bilayer chi(2) is ~10^-14 m/V (vs. ~10^-12 for BBO). SPDC coherence length ~100 nm. Predicted pair rate < 10^-20 per bilayer per second. **The Liu-Chen-Ao cascade mechanism circumvents this** by using sequential chi(1) emission, requiring no phase matching.
+
+### 10.6 Key Updated Parameters
+
+| Parameter | Value | Source |
+|-----------|-------|--------|
+| Entanglement preservation distance (brain) | ~600 um (ballistic) | Shi et al. 2016 |
+| Decoherence pathway | Werner state (depolarization) | Shi et al. 2016 |
+| GFP entangled pair CAR | ~145 | Shi et al. 2017 |
+| GFP entanglement fidelity | ~94% | Shi et al. 2017 |
+| Myelin ARROW bandwidth | ~10 nm (narrow) | Zeng et al. 2022 |
+| Wavelength shift per myelin layer | 52.3 nm | Zeng et al. 2022 |
+| ARROW operating range | 300-500 nm | Omidi et al. 2022 |
+| Waveguide transmission per internode | 46-90% | Kumar et al. 2016 |
+| Tryptophan superradiance | >10^5 dipoles, room temp | Babcock et al. 2024 |
+
+### 10.7 Implications for This Track
+
+1. **Entanglement survives brain tissue** (Shi 2016) — the waveguide hypothesis is physically plausible.
+2. **Biological molecules CAN generate entangled photons** (Shi 2017, GFP) — but endogenous generation undetected.
+3. **Superradiance is real in biological structures** (Babcock 2024) — cavity QED effects at room temperature confirmed.
+4. **g^(2) measurement is the #1 experimental priority** — no one has done it yet.
+5. **The Liu-Chen-Ao cascade model remains viable** — SPDC is not, but sequential emission avoids the phase-matching problem.
