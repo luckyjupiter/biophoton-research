@@ -773,3 +773,146 @@ $$F_4 \approx 0.983 + 0.01 \times 0.231 = 0.985$$
 **Conclusion**: A dramatically sub-Poissonian source ($F = 0.5$) would appear as $F = 0.985$ after realistic detection -- a 1.5% departure from Poissonian. Detecting this requires $N \approx 2(z_{0.01} + z_{0.20})^2 / 0.015^2 \approx 70{,}000$ counting intervals (at the $\alpha = 0.01$, power $= 0.80$ level), corresponding to roughly 20 hours at 1-second intervals. And this assumes **perfect stationarity** and **perfectly known detector parameters** -- neither of which holds in practice.
 
 This back-of-the-envelope calculation demonstrates why definitive claims about nonclassical biophoton statistics are so difficult to substantiate, and why the field remains mired in controversy.
+
+
+---
+
+## 8. Computational Results and Insights
+
+This section documents findings from Monte Carlo simulations, sensitivity analyses, and critical reanalyses conducted as part of the Track 01 computational program. All code is in the `src/` directory of the track worktree; figures are in `figures/`; numerical data are in `results/`.
+
+### 8.1 Quantitative Confirmation: Broadband Thermal Light Is Indistinguishable from Coherent
+
+The fundamental claim of Cifra et al. (2015) -- that broadband thermal light produces Poissonian photocount statistics -- was confirmed quantitatively through simulation. For biophoton-relevant parameters:
+
+- Emission bandwidth $\Delta\nu \sim 10^{14}$ Hz (visible spectrum)
+- Counting interval $T = 1$ s
+- Number of thermal modes $M = T \cdot \Delta\nu \sim 10^{13}$
+- Detected mean count $\mu = 1$--$100$
+
+The Fano factor departure $Q = \mu/M \sim 10^{-12}$ to $10^{-11}$ is many orders of magnitude below any detectable threshold. Even with $N = 10^6$ counting intervals (11.6 days of continuous measurement at 1-second resolution), the minimum detectable departure is $|F - 1| > 0.003$.
+
+**New quantitative result**: The maximum number of modes $M$ that can be distinguished from infinite modes (Poisson) as a function of sample size is approximately:
+
+| N intervals | Max distinguishable M (at $\mu=10$, $\alpha=0.05$) |
+|------------|------------------------------------------------------|
+| 10,000     | ~300                                                  |
+| 100,000    | ~600                                                  |
+| 1,000,000  | ~2,000                                                |
+
+For biophoton emission with $M > 10^{10}$, the statistics are completely indistinguishable from Poissonian regardless of measurement duration.
+
+### 8.2 Detector Artifact Cascade: Quantitative Budget
+
+The full detector artifact chain was simulated for a strongly sub-Poissonian source ($F_{\text{true}} = 0.5$) with $\mu = 10$ photons per interval:
+
+| Stage | Cooled PMT | Room-temp PMT | SNSPD |
+|-------|-----------|---------------|-------|
+| $\eta$ | 0.15 | 0.12 | 0.85 |
+| Dark rate | 2/s | 20/s | 0.1/s |
+| After efficiency | 0.925 | 0.940 | 0.575 |
+| After dark counts | 0.970 | 0.997 | 0.581 |
+| After dead time | 0.970 | 0.997 | 0.581 |
+| After afterpulsing | 0.970 | 0.997 | 0.581 |
+| **Measured F** | **0.970** | **0.997** | **0.581** |
+| S/D ratio | 0.75 | 0.06 | 85 |
+
+**Key insight**: Detection efficiency is the dominant degradation factor for sub-Poissonian statistics, not dark counts. The formula $F_{\text{measured}} = \eta(F_{\text{true}} - 1) + 1$ shows that with $\eta = 0.15$, only 15% of the sub-Poissonian departure survives detection. Dark counts then further dilute the signal by a factor of $\mu_{\text{det}}/(\mu_{\text{det}} + d)$.
+
+The practical implication: **superconducting nanowire single-photon detectors (SNSPDs) are the only technology that preserves enough sub-Poissonian signature for detection at biophoton count rates.** Cooled PMTs, despite being the standard in the field, attenuate the signal by 97%.
+
+### 8.3 Minimum Measurement Times for Squeezing Detection
+
+For squeezed coherent states with $|\alpha|^2 = 10$ (coherent photon number = 10):
+
+| Squeeze parameter r | F_source | F_measured (PMT) | Time (PMT) | F_measured (SNSPD) | Time (SNSPD) |
+|--------------------|----------|------------------|-----------|-------------------|-------------|
+| 0.3 | 0.80 | 0.990 | >100 hr | 0.84 | 0.6 hr |
+| 0.5 | 0.52 | 0.973 | 8 hr | 0.60 | 0.03 hr |
+| 0.7 | 0.38 | 0.960 | 3 hr | 0.44 | 0.01 hr |
+| 1.0 | 0.59 | 0.966 | 5 hr | 0.52 | 0.02 hr |
+| 1.5 | 1.56 | 0.997 | >100 hr | 1.49 | 0.3 hr |
+
+Note: At high squeeze parameter ($r > 1$), the squeeze-induced photon noise ($2\sinh^2 r \cosh^2 r$) begins to dominate, pushing the Fano factor back above 1. This creates an optimal window for sub-Poissonian detection around $r \approx 0.5$--$0.7$.
+
+### 8.4 Nonstationarity: The Dominant Confound
+
+Monte Carlo simulations of sinusoidally modulated Poisson processes reveal that remarkably small rate modulations produce statistically significant super-Poissonian signatures:
+
+| Rate modulation depth | False positive rate (N=5000, $\alpha=0.05$) |
+|----------------------|---------------------------------------------|
+| 0% (stationary) | 5.0% (as expected) |
+| 2.1% | >5% |
+| 5% | ~30% |
+| 10% | ~85% |
+| 20% | ~100% |
+
+Biological systems exhibit rate fluctuations far exceeding 2%. This means:
+
+1. **All reported super-Poissonian statistics from biophotons are suspect** unless stationarity has been rigorously verified.
+2. **Super-Poissonian statistics are more informative as biological probes** than as quantum-optical indicators.
+3. **Sub-Poissonian claims require even more stringent stationarity controls**, since biological rate modulation only produces super-Poissonian artifacts.
+
+### 8.5 Critical Reanalysis: Squeezed-State Fitting Is Not Evidence
+
+The four-parameter squeezed coherent state distribution was fit to data generated from a classical two-parameter negative binomial source (NB with $\mu = 5$, $M = 3$). Results:
+
+| Model | Parameters | Fit quality ($\chi^2$-like) | AIC | BIC |
+|-------|-----------|---------------------------|-----|-----|
+| Poisson | 1 | 188 (poor) | 3926 | 3931 |
+| Negative Binomial | 2 | 0.002 (excellent) | 3921 | 3931 |
+| Squeezed State | 4 | 0.003 (excellent) | 3925 | 3944 |
+
+The squeezed-state model achieves a fit quality comparable to the true generating model, despite being the wrong physical model. When properly penalized for model complexity (AIC, BIC), the simpler negative binomial is always preferred. This directly addresses the Bajpai (2003, 2005) claims: fitting a squeezed-state distribution to photocount data and obtaining a good fit is not evidence for quantum squeezing.
+
+### 8.6 Low Count Rate Distribution Convergence
+
+At the per-mode photon numbers typical of biophoton experiments ($\mu \ll 1$), all photocount distributions converge:
+
+| Per-mode $\mu$ | KL(Poisson || NB, M=100) | Approx N to distinguish |
+|-----------------|--------------------------|------------------------|
+| 0.01 | $2.5 \times 10^{-9}$ | $4 \times 10^{8}$ |
+| 0.1 | $2.5 \times 10^{-7}$ | $4 \times 10^{6}$ |
+| 1.0 | $2.5 \times 10^{-5}$ | $4 \times 10^{4}$ |
+| 10.0 | $9.3 \times 10^{-4}$ | $1 \times 10^{3}$ |
+
+At $\mu = 0.01$ (realistic for biophoton per-mode), one would need $4 \times 10^{8}$ counting intervals (about 12.7 years at 1-second resolution) to distinguish even a 100-mode thermal source from Poisson.
+
+### 8.7 Implications for the Biophoton Research Program
+
+**What photocount statistics CAN do:**
+- Detect super-Poissonian statistics arising from biological rate modulation
+- Place lower bounds on the number of thermal modes (though very weak at UPE intensities)
+- Rule out single-mode thermal emission (M=1) if statistics are Poissonian
+
+**What photocount statistics CANNOT do:**
+- Distinguish coherent from broadband thermal emission (fundamental impossibility)
+- Confirm or deny quantum coherence in biophoton fields
+- Provide evidence for squeezed states through distribution fitting
+
+**For the M-Phi framework:**
+- The claim that myelin sheaths maintain a coherent photon field (Lambda) cannot be tested through photocount statistics alone
+- The most promising experimental approach is $g^{(2)}(\tau)$ correlation measurements (Track 04), requiring SNSPD-class detectors and picosecond timing
+
+---
+
+## 9. Computational Methods Reference
+
+All simulations use Python 3.11+ with NumPy, SciPy, and Matplotlib:
+
+```
+src/
+  photocount_distributions.py  -- Distribution models and sampling
+  statistical_tests.py         -- Hypothesis tests and Bayesian comparison
+  detector_model.py            -- Detector artifact chain
+  sensitivity_analysis.py      -- Parameter sweeps and power analysis
+  critical_reanalysis.py       -- Critique of published claims
+  generate_figures.py          -- Publication figure generation
+  simulate_photocount.py       -- Master simulation runner
+```
+
+Key numerical methods:
+- Squeezed state P(n): Fock-space recurrence relation (numerically stable to n~200)
+- Cox process: Ornstein-Uhlenbeck log-intensity with Euler-Maruyama integration
+- Bayesian evidence: Analytic Gamma-Poisson conjugate for Poisson; Laplace approximation for NB
+- Monte Carlo: Reproducible via numpy.random.Generator with fixed seeds
