@@ -38,13 +38,20 @@ Breakthroughs and notable results from simulation and analysis work. Each entry 
 
 ---
 
-## 2026-02-11 [TRACK-07] Waveguide Transport Is the Bottleneck
+## 2026-02-11 [TRACK-07] Deep Analysis: Quantitative Bottleneck and Sensitivity Hierarchy
 
-**What:** Multi-scale model shows delivered photon rate at axon terminals is 3.2×10^-11 photons/s — transmission through 10 internodes is 1.2×10^-5.
-**Numbers:** Generation: 2.7×10^-6 photons/s/axon. Transmission: 1.2×10^-5. Network sync: r=0.12.
-**Why it matters:** Identifies the critical bottleneck — waveguide loss dominates everything. Interventions should focus on reducing propagation loss.
-**Files:** `worktrees/track-07/figures/coherence_1d_demo.png`, `sweep_coupling_K.png`
-**Podcast potential:** MEDIUM — supports Episode 6 narrative on multi-scale challenges.
+**What:** Comprehensive 6-analysis deep dive into the unified multi-scale model. Quantified the full molecular-to-network photon pipeline, identified the dominant parameters, mapped the synchronization phase diagram, and showed demyelination coherence degradation.
+**Numbers:**
+- Bottleneck factor (10 internodes): 8.4x10^4 — waveguide loss dominates by 4-5 orders of magnitude
+- Loss budget: node coupling loss dominates over absorption for >2 internodes; 20 internodes yields T=4.3x10^-11
+- Sensitivity ranking: n_internodes (52,840%) >> node_transmission (3,844%) >> kappa (133%) > j_leak (105%) > g_PhiPsi (100%) > alpha_myelin (51%) >> coupling_K (2%)
+- Synchronization critical K: scales with N (K_c=0.22 for N=10, K_c=3.9 for N=50, K_c=4.9 for N=100)
+- Demyelination: mild lesion (kappa=0.3) causes 32% coherence reduction; severe (kappa=1.0) causes 81% — consistent with Track 06 biomarker predictions
+- End-to-end: M-function = 14.77 (50 axons, K=0.01, 10 internodes)
+**Key insight:** The two parameters that overwhelmingly matter are structural (number of internodes, node transmission). All molecular and network parameters are secondary. This means the experimental priority is measuring node-of-Ranvier optical transmission, not refining ROS kinetics.
+**Cross-track consistency:** The 81% coherence reduction under severe demyelination aligns with Track 06's predicted >50x emission enhancement and Track 08's critical damage threshold of ~30%.
+**Files:** `worktrees/track-07/figures/` (8 figs total), `worktrees/track-07/results/` (8 files: 5 JSON, 1 NPZ, 1 TXT)
+**Podcast potential:** HIGH — Episode 6 anchor upgraded. "We swept every parameter in the model and found that just two things matter: how many nodes of Ranvier the light crosses, and how much each node leaks."
 
 ---
 

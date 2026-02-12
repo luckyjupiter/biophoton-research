@@ -60,19 +60,19 @@ CAUCHY_A_ECF = 1.3280
 CAUCHY_B_ECF = 3.63e-15
 
 
-def n_cauchy(wavelength_m, A, B, C=0.0):
+def n_cauchy(wavelength_m: "float | np.ndarray", A: float, B: float, C: float = 0.0) -> np.ndarray:
     """Cauchy dispersion relation: n(lambda) = A + B/lambda^2 + C/lambda^4."""
     lam = np.asarray(wavelength_m, dtype=float)
     return A + B / lam**2 + C / lam**4
 
 
-def n_myelin_dispersive(wavelength_nm):
+def n_myelin_dispersive(wavelength_nm: "float | np.ndarray") -> np.ndarray:
     """Refractive index of myelin with Cauchy dispersion."""
     return n_cauchy(np.asarray(wavelength_nm, dtype=float) * 1e-9,
                     CAUCHY_A_MYELIN, CAUCHY_B_MYELIN)
 
 
-def n_axoplasm_dispersive(wavelength_nm):
+def n_axoplasm_dispersive(wavelength_nm: "float | np.ndarray") -> np.ndarray:
     """Refractive index of axoplasm with Cauchy dispersion."""
     return n_cauchy(np.asarray(wavelength_nm, dtype=float) * 1e-9,
                     CAUCHY_A_AXOPLASM, CAUCHY_B_AXOPLASM)
