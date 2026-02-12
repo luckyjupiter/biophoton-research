@@ -123,6 +123,11 @@ EXCITED_PIGMENT_RANGE_NM = (550.0, 750.0)
 # Baseline emission
 # ===========================================================================
 BASELINE_EMISSION_PHOTONS_PER_CM2_PER_S = 100.0   # ~1-1000 typical range
+BASELINE_EMISSION_RANGE = (1.0, 1000.0)            # 3 OOM uncertainty
+BASELINE_EMISSION_DISTRIBUTION = "lognormal"
+BASELINE_EMISSION_LOG_MU = 4.6                     # ln(100) ≈ 4.6
+BASELINE_EMISSION_LOG_SIGMA = 1.5                  # log-space σ
+
 BIOPHOTON_RATE_LOW = 1.0       # lower bound of typical UPE
 BIOPHOTON_RATE_HIGH = 1000.0   # upper bound of typical UPE
 
@@ -142,6 +147,9 @@ BEND_LOSS_PER_CM = 1.0              # bending losses in curved axons
 # Spectral tuning coefficients (Sefati/Zeng model)
 # ===========================================================================
 SPECTRAL_SHIFT_PER_LAYER_NM = 52.3          # +52.3 nm per myelin wrap
+SPECTRAL_SHIFT_PER_LAYER_SIGMA = 10.0       # Zeng et al. uncertainty
+SPECTRAL_SHIFT_PER_LAYER_RANGE = (32.0, 72.0)
+SPECTRAL_SHIFT_PER_LAYER_DISTRIBUTION = "normal"
 SPECTRAL_SHIFT_PER_UM_DIAMETER_NM = -94.5   # -94.5 nm per μm axon diameter
 
 # ===========================================================================
@@ -189,8 +197,19 @@ HILL_COEFFICIENT_DEFAULT = 3.0   # cooperative binding/damage sigmoid
 HILL_K_HALF_DEFAULT = 0.5       # half-maximal effect at 50% damage
 HILL_K_EMISSION = 0.20          # EC50 at 20% demyelination
 HILL_N_EMISSION = 2.0
+HILL_N_EMISSION_RANGE = (1.5, 4.0)
+HILL_N_EMISSION_DISTRIBUTION = "uniform"
 HILL_K_SPECTRAL = 0.50
 HILL_N_SPECTRAL = 1.0
+
+# Hill equation uncertainty ranges (for Monte Carlo)
+HILL_K_HALF_RANGE = (0.15, 0.60)           # no data to constrain tightly
+HILL_K_HALF_DISTRIBUTION = "uniform"
+HILL_SMAX_NOMINAL = 8.0                     # max emission enhancement factor
+HILL_SMAX_RANGE = (3.0, 20.0)              # inflammatory amplification range
+HILL_SMAX_DISTRIBUTION = "lognormal"
+HILL_SMAX_LOG_MU = 2.1                      # ln(8) ≈ 2.08
+HILL_SMAX_LOG_SIGMA = 0.5
 
 # ===========================================================================
 # Disease-specific timescales
@@ -357,6 +376,28 @@ KAPPA_ENV_DEFAULT = 0.1          # environmental decoherence for QFT device
 RESPONSIVITY_BASELINE = 0.50     # chance level
 RESPONSIVITY_TYPICAL = 0.515     # observed in active MMI sessions
 RESPONSIVITY_HIGH = 0.53         # optimized conditions
+
+# ===========================================================================
+# Monte Carlo uncertainty parameters
+# ===========================================================================
+# Node transmission (waveguide coupling at Nodes of Ranvier)
+NODE_TRANSMISSION_NOMINAL = 0.85
+NODE_TRANSMISSION_DISTRIBUTION = "beta"
+NODE_TRANSMISSION_ALPHA = 8.5
+NODE_TRANSMISSION_BETA = 1.5
+NODE_TRANSMISSION_RANGE = (0.5, 0.98)
+
+# Coupling efficiency (photon collection from tissue)
+COUPLING_EFFICIENCY_NOMINAL = 1e-3
+COUPLING_EFFICIENCY_DISTRIBUTION = "lognormal"
+COUPLING_EFFICIENCY_LOG_MU = -6.9             # ln(1e-3) ≈ -6.9
+COUPLING_EFFICIENCY_LOG_SIGMA = 1.5
+COUPLING_EFFICIENCY_RANGE = (1e-4, 1e-2)
+
+# Biological variability (animal-to-animal coefficient of variation)
+ANIMAL_CV_NOMINAL = 0.35
+ANIMAL_CV_RANGE = (0.2, 0.5)
+ANIMAL_CV_DISTRIBUTION = "uniform"
 
 # ===========================================================================
 # Simulation defaults

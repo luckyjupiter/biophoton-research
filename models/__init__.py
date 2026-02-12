@@ -52,6 +52,18 @@ from .network import (
     simulate_network_synchronization,
     axon_coherence_from_sync,
 )
+from .uncertainty import (
+    UncertaintyEngine,
+    ParameterDistribution,
+    build_default_parameter_set,
+    propagate_emission_prediction,
+    propagate_detection_prediction,
+    propagate_roc_prediction,
+    tornado_plot_data,
+    run_full_cascade_mc,
+)
+from .detection import compare_groups, simulate_measurement
+from .emission import confound_emission
 
 __all__ = [
     # Geometry
@@ -86,4 +98,18 @@ __all__ = [
     "kuramoto_order_parameter",
     "simulate_network_synchronization",
     "axon_coherence_from_sync",
+    # Uncertainty
+    "UncertaintyEngine",
+    "ParameterDistribution",
+    "build_default_parameter_set",
+    "propagate_emission_prediction",
+    "propagate_detection_prediction",
+    "propagate_roc_prediction",
+    "tornado_plot_data",
+    "run_full_cascade_mc",
+    # New detection functions
+    "compare_groups",
+    "simulate_measurement",
+    # New emission functions
+    "confound_emission",
 ]

@@ -65,6 +65,26 @@ class DemyelinationState:
         """Fraction of nodes with complete myelin gaps."""
         return self.gamma
 
+    def with_uncertainty(self, cv: float = 0.1, rng: np.random.Generator | None = None) -> DemyelinationState:
+        """Return a new state with random perturbation (for MC sampling).
+
+        Each axis is perturbed by a multiplicative lognormal factor with the
+        given coefficient of variation, then clipped to [0, 1].
+        """
+        if rng is None:
+            rng = np.random.default_rng()
+
+        def _perturb(val: float) -> float:
+            if val <= 0:
+                return 0.0
+            return float(np.clip(val * rng.lognormal(0, cv), 0.0, 1.0))
+
+        return DemyelinationState(
+            alpha=_perturb(self.alpha),
+            gamma=_perturb(self.gamma),
+            rho=_perturb(self.rho),
+        )
+
     def __repr__(self) -> str:
         return f"DemyelinationState(α={self.alpha:.2f}, γ={self.gamma:.2f}, ρ={self.rho:.2f})"
 
@@ -112,23 +132,53 @@ def cuprizone_timeline(week: float) -> DemyelinationState:
     - Weeks 0–1: minimal change
     - Weeks 2–3: progressive demyelination
     - Weeks 4–5: peak demyelination (corpus callosum nearly bare)
-    - Week 6: onset of spontaneous remyelination if cuprizone removed
+    - Week 6: cuprizone removed, onset of spontaneous remyelination
 
-    Extended (12-week) prevents remyelination and causes chronic damage.
+    Remyelination (weeks 6+):
+    - Alpha decreases exponentially toward ~0.4 (thin remyelination wraps)
+    - Gamma decreases toward ~0.1 (gaps close)
+    - Rho increases transiently (disordered thin wraps), then decreases
+
+    Axis correlations:
+    - Gamma depends on alpha (gap formation lags thinning by ~1 week)
+    - Rho depends on both alpha and d(alpha)/dt (irregularity peaks during
+      rapid change)
     """
     week = max(0.0, float(week))
 
-    # Alpha: sigmoid reaching ~0.85 at week 5, shifted so ≈0 at week 0
-    alpha = 0.9 / (1 + np.exp(-1.5 * (week - 3.5)))
-    alpha -= 0.9 / (1 + np.exp(-1.5 * (0 - 3.5)))  # subtract baseline so week 0 = 0
+    # Alpha: sigmoid for demyelination phase, exponential recovery after week 6
+    if week <= 6.0:
+        alpha = 0.9 / (1 + np.exp(-1.5 * (week - 3.5)))
+        alpha -= 0.9 / (1 + np.exp(-1.5 * (0 - 3.5)))
+    else:
+        # Peak alpha at week 6
+        alpha_peak = 0.9 / (1 + np.exp(-1.5 * (6.0 - 3.5)))
+        alpha_peak -= 0.9 / (1 + np.exp(-1.5 * (0 - 3.5)))
+        # Exponential recovery toward 0.4 (thin remyelination, never fully back)
+        alpha = 0.4 + (alpha_peak - 0.4) * np.exp(-0.15 * (week - 6.0))
 
-    # Gamma: gap formation lags slightly behind thinning
-    gamma = 0.7 / (1 + np.exp(-1.2 * (week - 4.0)))
-    gamma -= 0.7 / (1 + np.exp(-1.2 * (0 - 4.0)))
+    # Gamma depends on alpha: gap formation lags thinning by ~1 week
+    if week <= 6.0:
+        alpha_lagged = 0.9 / (1 + np.exp(-1.5 * (max(0, week - 1.0) - 3.5)))
+        alpha_lagged -= 0.9 / (1 + np.exp(-1.5 * (0 - 3.5)))
+        gamma = 0.75 * max(0.0, alpha_lagged)
+    else:
+        # Gaps close during remyelination
+        gamma_peak = 0.75 * (0.9 / (1 + np.exp(-1.5 * (5.0 - 3.5)))
+                             - 0.9 / (1 + np.exp(-1.5 * (0 - 3.5))))
+        gamma = 0.1 + (gamma_peak - 0.1) * np.exp(-0.2 * (week - 6.0))
 
-    # Rho: irregularity peaks mid-process then decreases as myelin is uniformly lost
-    rho = 0.6 * np.exp(-0.5 * ((week - 3.0) / 1.5) ** 2)
-    rho -= 0.6 * np.exp(-0.5 * ((0 - 3.0) / 1.5) ** 2)  # zero at week 0
+    # Rho depends on rate of change of alpha (irregularity peaks during rapid change)
+    # d(alpha)/dt is maximal around week 3-4 during demyelination
+    if week <= 6.0:
+        d_alpha_dt = 0.9 * 1.5 * np.exp(-1.5 * (week - 3.5)) / (1 + np.exp(-1.5 * (week - 3.5)))**2
+        rho = 0.7 * d_alpha_dt / 0.35  # normalize so peak rho ≈ 0.6
+        rho = min(rho, 0.8)
+    else:
+        # Transient increase (disordered thin wraps), then decrease
+        rho_at_6 = 0.15  # low at week 6 (damage was mostly uniform by then)
+        rho_transient = 0.35 * np.exp(-0.5 * ((week - 8.0) / 1.5)**2)
+        rho = rho_at_6 * np.exp(-0.1 * (week - 6.0)) + rho_transient
 
     return DemyelinationState(
         alpha=float(np.clip(alpha, 0, 1)),
