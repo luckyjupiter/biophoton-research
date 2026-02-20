@@ -64,6 +64,11 @@ from .uncertainty import (
 )
 from .detection import compare_groups, simulate_measurement
 from .emission import confound_emission
+from .node_emission import (
+    NodeEmission,
+    propagate_with_relay,
+    ap_timing,
+)
 
 __all__ = [
     # Geometry
@@ -112,4 +117,8 @@ __all__ = [
     "simulate_measurement",
     # New emission functions
     "confound_emission",
+    # Node emission (Zangari relay model)
+    "NodeEmission",
+    "propagate_with_relay",
+    "ap_timing",
 ]

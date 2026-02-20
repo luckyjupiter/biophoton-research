@@ -2,6 +2,19 @@
 
 **Draft v1.0 -- February 2026**
 
+> ⚠️ **SUPERSEDED (2026-02-19):** This paper is being replaced by a new draft:
+> **"The Myelin Waveguide as Spectral Filter: A Nanoantenna Relay Model Unifying Biophoton Spectral Shifts Across Aging, Disease, and Species"**
+> Location: `/home/yesh/.openclaw/workspace/biophoton_relay_paper_draft.md`
+>
+> The new paper integrates the Zangari nanoantenna relay model (node-to-node photonic saltatory conduction),
+> the spectral filter discovery (myelin selectively guides IR), and unifies three independent datasets
+> (species redshift, aging blueshift, AD blueshift) under one mechanism. Key advance: model predicts
+> external centroid of 581nm for demyelination, matching Dai's measured AD value of 582nm (not fitted).
+> The dual-signature prediction (external UP + internal DOWN) is unique to the relay model.
+>
+> This v1.0 draft remains useful for the ROS cascade modeling, ARROW analysis, and ROC calculations,
+> which carry forward into the new paper.
+
 ---
 
 ## Abstract

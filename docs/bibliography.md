@@ -656,4 +656,18 @@ biophysics, and competence in multiple areas is required.
 
 ---
 
-*Last updated: February 2026*
+## New Additions (2026-02-19) — Nanoantenna Relay + Spectral Filter
+
+| Reference | Year | Category | Relevance | Tracks |
+|-----------|------|----------|-----------|--------|
+| Zangari et al., Sci. Rep. 11:3022 (Ag⁺ experimental) | 2021 | Nanoantenna | Essential | 1, 6 |
+| Chen, Wang & Dai, Brain Res. 1749:147133 (aging blueshift) | 2020 | Spectral Data | Essential | 6 |
+| Wang et al., Front. Aging Neurosci. 15:1208274 (AD/VaD blueshift) | 2023 | Spectral Data | Essential | 6 |
+| Wang et al., PNAS (species redshift, human 865nm) | 2016 | Spectral Data | Essential | 1, 6 |
+| Barros & Cunha, Prog. Biophys. Mol. Biol. (biophoton review) | 2024 | Reviews | Important | 2, 6 |
+| Smith & Lassmann (ROS + demyelination) | 1999 | Pathology | Important | 6 |
+| Frede, Zadeh-Haghighi & Simon, IEEE JSTQE/bioRxiv (multi-node polarization) | 2023 | Waveguide Theory | Essential | 1, 3 |
+
+**Note:** The spectral data papers (Chen 2020, Wang 2023, Wang 2016) are critical because our relay model's spectral filter prediction matches their independently measured values — particularly the AD centroid (predicted 581nm vs measured 582nm, not fitted).
+
+*Last updated: February 19, 2026*

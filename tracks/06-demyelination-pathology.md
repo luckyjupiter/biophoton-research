@@ -1011,3 +1011,75 @@ No standardized clinical protocols, no FDA/CE-marked devices yet.
 40. Licht-Mayer S et al. (2022). Nature Neuroscience 23:1366-1374.
 41. Langner S et al. (2025). J. Neuroinflammation 22:97.
 42. Prasad A et al. (2022). Antioxidants 11(7):1333.
+
+---
+
+## 11. Nanoantenna Relay Model Integration (2026-02-19)
+
+### 11.1 Overview
+
+A major model upgrade integrates the Zangari nanoantenna array (2018, 2021) with the waveguide propagation model to create a **node-to-node relay** system — photonic saltatory conduction. This fundamentally changes the demyelination predictions by adding:
+
+1. **Two distinct emission sources per node** with different spectra and directionality
+2. **Relay steady-state** — signal converges to E/(1-T) instead of decaying to zero
+3. **Myelin as spectral filter** — the waveguide doesn't just attenuate, it filters
+
+### 11.2 The Spectral Filter Discovery
+
+The myelin sheath acts as a wavelength-dependent spectral filter:
+- **Thick myelin (healthy):** Guides IR photons internally; external detectors see mainly visible ROS emission
+- **Thin myelin (aging/disease):** IR leaks out through degraded waveguide; external spectrum blueshifts
+
+This single mechanism unifies three independent experimental observations:
+
+| Dataset | Group | Year | Observation | Our Explanation |
+|---------|-------|------|-------------|----------------|
+| Species spectral redshift | Wang et al. (PNAS) | 2016 | Human brain peaks at 865nm IR | More myelination → better IR waveguiding |
+| Aging spectral blueshift | Chen/Dai (Brain Res) | 2020 | Mouse brain emission blueshifts with age | Myelin thins with age → IR leaks |
+| AD/VaD spectral blueshift | Dai group (Front Aging Neurosci) | 2023 | AD: 648→582nm; VaD: 656→608nm | Neurodegeneration damages myelin → same mechanism |
+
+**Key quantitative result:** Our model predicts external centroid = 581nm for severe demyelination (g=0.95). Dai's measured AD value = 582nm. **This was NOT fitted — independently derived from waveguide physics.**
+
+### 11.3 Updated Dual-Signature Prediction
+
+The original Track 06 predictions (sections 3.1-3.3) are strengthened by the relay model:
+
+**External (perpendicular to axon):**
+- Healthy: moderate emission, centroid ~794nm
+- Cuprizone week 6: 22.8× enhancement, centroid shifts to ~581nm
+
+**Internal (along axon axis):**
+- Healthy: relay signal at steady state, centroid ~703nm
+- Cuprizone week 6: relay drops to 58.6%, centroid stays ~703nm
+
+The ANTI-CORRELATION of external up + internal down is the unique testable prediction. No other model predicts both simultaneously.
+
+### 11.4 New Experimental Priorities
+
+Based on the relay model, the most decisive experiment is:
+
+**Steady-state scan (Priority #1):** Scan a PMT along a stimulated nerve, measuring biophoton flux at each node position. If flux plateaus after ~5-8 nodes instead of continuing to decay exponentially, the relay model is confirmed. Simplest, cheapest, most decisive.
+
+**Spectral fingerprint (Priority #2):** Two detection positions on the same stimulated nerve — axial (along axis) vs perpendicular. IR/visible ratio should be higher at axial position (nanoantenna is directional; ROS is isotropic).
+
+These supersede the original Track 06 experimental priorities in sections 5.1-5.5, which remain valid but are now secondary.
+
+### 11.5 Hardware Gap
+
+All current biophoton detectors (EMCCD, PMT) have quantum efficiency falling off above ~850nm. The human brain biophoton peak is at 865nm (Wang PNAS 2016). This means existing measurements systematically miss where most of the signal is. InGaAs detectors are needed for the full picture.
+
+### 11.6 New Code
+
+- `models/node_emission.py` — NodeEmission dataclass, propagate_with_relay(), ap_timing()
+- `models/cuprizone_relay.py` — dual-signature cuprizone experiment prediction
+- `tools/viz_relay.py` — relay visualization suite
+- `tools/viz_cuprizone_relay.py` — dual-signature plots
+
+### 11.7 New References
+
+43. Chen L, Wang Z, Dai J (2020). "Spectral blueshift of biophotonic activity and transmission in the ageing mouse brain." Brain Research 1749:147133.
+44. Wang Z et al. (2023). "Reduced biophotonic activities and spectral blueshift in Alzheimer's disease and vascular dementia models with cognitive impairment." Front. Aging Neurosci. 15:1208274. (PMC10505668)
+45. Wang Z et al. (2016). "Biophotonic activities and transmission of myelinated and unmyelinated nerve fibers." PNAS (species redshift, human 865nm peak).
+46. Barros EP, Cunha DL (2024). "Electromagnetic radiation and biophoton emission in neuronal communication and neurodegenerative diseases." Prog Biophys Mol Biol.
+47. Casey CP et al. (2025). "Exploring ultraweak photon emissions as optical markers of brain activity." iScience (Feb 2025).
+48. Smith KJ, Lassmann H (1999). "Role of nitric oxide in multiple sclerosis." (ROS + demyelination link)

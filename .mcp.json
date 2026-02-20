@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "biophoton-kg": {
+      "type": "stdio",
+      "command": "python3",
+      "args": [
+        "/home/yesh/biophoton-research/kg/biophoton_mcp_server.py"
+      ],
+      "env": {}
+    }
+  }
+}

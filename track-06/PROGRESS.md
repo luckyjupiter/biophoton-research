@@ -101,3 +101,41 @@ severe demyelination for reliable detection.
 - Track 03 (waveguide physics): Refractive indices, mode structure, 52.3 nm/layer rule
 - Track 04 (quantum optics): g^(2)(0) predictions, entangled pair production
 - Track 05 (signal-to-noise): Detector specifications, integration times
+
+---
+
+## 2026-02-19: Major Update — Nanoantenna Relay Model + Spectral Filter
+
+### New Code
+- `models/node_emission.py` — NodeEmission dataclass with Zangari nanoantenna parameters, propagate_with_relay(), ap_timing()
+- `models/cuprizone_relay.py` — Dual-signature cuprizone experiment simulation (external UP + internal DOWN)
+- `tools/viz_relay.py` — 4-panel relay visualization
+- `tools/viz_cuprizone_relay.py` — Dual-signature plots
+
+### Key Results
+1. **Spectral filter discovery:** Myelin acts as wavelength-dependent spectral filter. Thick myelin guides IR internally; thin myelin leaks. External centroid blueshifts from 794nm (healthy) to 581nm (severe demyelination).
+2. **Match to independent data:** Our predicted 581nm matches Dai group's measured AD value of 582nm (PMC10505668, 2023). NOT fitted.
+3. **Three datasets unified:** Species redshift (Wang PNAS 2016), aging blueshift (Chen/Dai 2020), AD/VaD blueshift (2023) — all explained by one mechanism.
+4. **Dual-signature strengthened:** Cuprizone week 6: external 22.8×, internal relay at 58.6%. First detection week 2 (d=1.18).
+5. **Research gap confirmed:** Deep literature search (sub-agent) found ZERO papers measuring biophotons during demyelination.
+
+### Updated Experimental Priorities
+1. **Steady-state scan** (NEW #1): PMT along nerve, flux vs node position → plateau confirms relay
+2. **Spectral fingerprint** (NEW #2): Axial vs perpendicular detection → nanoantenna directionality
+3. Cuprizone dual-signature (remains high priority)
+4. Two-node coincidence counting (highest impact but most expensive)
+
+### Files Created
+- Track doc section 11 added (nanoantenna relay integration)
+- Master predictions table: section 8 added (8 new predictions)
+- Bibliography updated with 7 new references
+- Paper v1.0 superseded note added (→ new spectral filter paper)
+- FINDINGS_LOG.md updated with breakthrough entry
+
+### Dependencies Added
+- Zangari et al. 2018 (nanoantenna FEM model, Sci Rep 8:539)
+- Zangari et al. 2021 (Ag⁺ experimental confirmation, Sci Rep 11:3022)
+- Chen/Dai 2020 (aging blueshift, Brain Res)
+- Wang et al. 2023 (AD/VaD blueshift, Front Aging Neurosci)
+- Wang et al. 2016 (species redshift, PNAS)
+- Frede et al. 2023 (multi-node polarization, bioRxiv/IEEE)

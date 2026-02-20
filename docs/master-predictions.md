@@ -99,6 +99,23 @@ Consolidated quantitative, falsifiable predictions from the biophoton research p
 
 ---
 
+## 8. Nanoantenna Relay Model + Spectral Filter (2026-02-19)
+
+| # | Prediction | Expected Value | Required Setup | Falsification Criterion | Source |
+|---|-----------|---------------|----------------|------------------------|--------|
+| 8.1 | Relay steady state: photon flux reaches E/(1-T) after ~5-8 nodes, then plateaus | Flux stabilizes at 5-8 nodes; pure-loss predicts exponential decay with no floor | PMT scanned along stimulated nerve (frog/rat sciatic), measuring flux at each node position | Flux continues exponential decay with no plateau through 15+ nodes | Relay model |
+| 8.2 | External emission centroid blueshifts from ~794nm (healthy, g=0.70) to ~555-581nm range (severe demyelination, g=0.92-0.97) | ~200-240nm total blueshift; direction matches Dai's AD data (648→582nm). ⚠️ Exact centroid has ARROW resonance sensitivity — plateaus at ~556nm (g=0.92-0.95), jumps to ~581nm (g=0.96-0.97). Needs AD g-ratio data to pin down. | Spectrally-resolved EMCCD + filter wheel on healthy vs demyelinated nerve | Centroid shift < 50nm between healthy and severely demyelinated tissue, or shift is in wrong direction | Spectral filter |
+| 8.2a | WT baseline centroid matches standard mouse myelin (g=0.78) | Predicted ~648nm; Dai measured 648.43 ± 0.90nm (nearly exact) | Transfer matrix at standard mouse parameters | Predicted WT centroid differs from measured by >20nm | Spectral filter |
+| 8.2b | Two-mechanism model: total AD blueshift = metabolic + waveguide components | Brain slice shift > synaptosome shift (difference = waveguide component); ifenprodil-resistant shift (~31nm) correlates with myelin integrity | Compare Dai's synaptosome vs brain slice magnitudes; correlate ifenprodil-resistant component with histological myelin scores | Synaptosome shift equals brain slice shift (no waveguide component) OR ifenprodil fully restores spectrum (no structural component) | Two-mechanism model |
+| 8.3 | Dual signature: external emission UP + internal relay signal DOWN simultaneously during cuprizone demyelination | Week 6: 22.8× external, relay at 58.6% of healthy | Two detector positions: perpendicular (external) + axial fiber (internal) on cuprizone mouse corpus callosum | External and internal signals move in same direction (both up or both down) | cuprizone_relay.py |
+| 8.4 | Guided (internal) signal spectral centroid remains ~703nm regardless of myelin state | ~703nm ± 20nm at all g-ratios from 0.65-0.95 | Axial fiber optic measuring guided photons at distal end of nerve | Internal centroid shifts >50nm with demyelination | Spectral filter |
+| 8.5 | Nanoantenna emission is separable from ROS by directionality: axial measurement enriched in IR relative to perpendicular measurement | IR/visible ratio higher at axial vs perpendicular detection positions | Two EMCCD positions on same stimulated nerve: axial (along axis) vs perpendicular | No directional difference in spectral composition between axial and perpendicular | Zangari 2018 + our model |
+| 8.6 | First detectable cuprizone dual-signature at week 2 (p<0.05, d=1.18) | Effect size d>1.0 at week 2 with n=10 mice/group | PMT weekly measurements on 10 cuprizone + 10 control mice | No significant difference at week 2 with n=10/group (d<0.3) | cuprizone_relay.py |
+| 8.7 | Species spectral redshift correlates with myelination index, not just brain mass | Human peak 865nm > monkey > pig > chicken > mouse > bullfrog; chicken may exceed mouse (higher myelination despite smaller brain) | Wang PNAS 2016 data + g-ratio measurements across species | Spectral peak correlates with brain mass but not g-ratio/myelination | Spectral filter + Wang 2016 |
+| 8.8 | All current biophoton detectors miss the human brain peak (865nm > detector range ~850nm) | >50% of human brain biophoton emission is in undetected IR range | Compare EMCCD (visible cutoff) vs InGaAs detector (IR-sensitive) on same human brain tissue | EMCCD captures >90% of total emission (no significant IR component above 850nm) | Wang 2016 + detector specs |
+
+---
+
 ## Cross-Track Consistency Checks
 
 The following internal consistency checks verify that predictions from different tracks agree where they overlap.

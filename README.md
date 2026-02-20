@@ -1,81 +1,155 @@
-# Biophotons in Myelinated Axons: Computational Research Program
+# Biophoton Waveguide Physics & Demyelination
 
-A systematic computational investigation into ultra-weak photon emissions (biophotons) in myelinated neural tissue — exploring the hypothesis that myelin sheaths function as biological optical waveguides and deriving testable predictions for demyelinating diseases.
+Computational research into ultra-weak photon emissions in myelinated neural tissue. Classical waveguide models, quantum discord relay theory, and testable predictions for demyelinating diseases.
 
-## Overview
+## The Core Question
 
-Myelinated axons have a refractive index profile (myelin ~1.44, axoplasm ~1.38, extracellular fluid ~1.34) that mirrors the architecture of optical fibers. Multiple independent FDTD simulations have confirmed that guided electromagnetic modes exist at biophoton wavelengths (300–1300 nm). This research program develops the mathematical frameworks, computational models, and experimental predictions needed to test whether this waveguiding is biologically functional — and what happens when the waveguide is damaged by disease.
+**What happens to light in your nerves when myelin is destroyed?**
 
-## Research Tracks
+Myelinated axons have the refractive index profile of fiber optic cables (n_myelin ≈ 1.44 vs n_axon ≈ 1.34). Multiple independent simulations confirm they can guide photons at visible and near-IR wavelengths—2 million times faster than electrical nerve signals.
 
-| # | Track | Focus |
-|---|-------|-------|
-| 1 | [Photocount Statistics](tracks/01-photocount-statistics.md) | Rigorous reanalysis of biophoton count distributions using quantum optics protocols |
-| 2 | [Time-Series & Fractal Analysis](tracks/02-time-series-fractal.md) | Temporal structure, memory, and self-similarity in emission sequences |
-| 3 | [Waveguide Propagation Modeling](tracks/03-waveguide-propagation.md) | FDTD, ARROW, and multilayer transfer matrix models of myelinated axons |
-| 4 | [Quantum Optics Formalism](tracks/04-quantum-optics.md) | Cavity QED, entangled biphoton generation, squeezed states in myelin |
-| 5 | [Signal-to-Noise & Detection Theory](tracks/05-signal-to-noise.md) | Statistical inference at ultra-low photon rates, detector modeling |
-| 6 | [Demyelination & Pathology](tracks/06-demyelination-pathology.md) | Testable predictions for MS, GBS, and other demyelinating conditions |
-| 7 | [Unified Multi-Scale Model](tracks/07-unified-model.md) | Connecting molecular generation → waveguide transport → network computation |
-| 8 | [MMI & Coherence Bridge](tracks/08-mmi-coherence-bridge.md) | Mind-matter interaction via the M-Φ coherence framework |
+Demyelinating diseases (MS, GBS, leukodystrophies) damage this waveguide. The physics makes quantitative, testable predictions about what should change.
 
-## Simulation Code
+## The Research Gap
 
-- **`models/`** — Core computational models: waveguide physics, demyelination parameters, emission spectra, detection simulation, and visualization tools
-- **`unified_model/`** — Multi-scale simulation engine connecting molecular, waveguide, and network layers
+**Nobody has ever measured biophoton emission during demyelination.**
 
-```bash
-# Run waveguide simulation
-cd models && python -m models
+Despite well-established links:
+- ROS → biophotons (proven)
+- Demyelination → ROS (proven)  
+- Demyelination → biophotons (never measured)
 
-# Run unified model
-cd unified_model && python -m unified_model
-```
+Not in cuprizone. Not in EAE. Not in lysolecithin. Not in any MS model. Not in any species.
 
 ## Key Predictions
 
-- **Spectral shift:** Each lost myelin layer blueshifts the operating wavelength by ~52.3 nm (Zeng et al. 2022)
-- **Scattering signature:** Fragmented myelin produces spatially patterned lateral emission at break points
-- **Oxidative burst:** Active demyelination generates characteristic singlet oxygen (634/703 nm) and triplet carbonyl (350–550 nm) emission peaks
-- **Remyelination marker:** Thin remyelinated sheaths produce a permanently blueshifted but present waveguiding signature, distinguishable from both healthy and demyelinated tissue
+### 1. Spectral Blueshift During Demyelination
+As myelin thins (g-ratio increases from ~0.8 → 0.96), the waveguide cutoff frequency shifts:
+- **Healthy myelin (g=0.80):** ~794nm emission centroid
+- **Demyelinated (g=0.96):** ~581nm emission centroid  
+- **Shift:** ~213nm blueshift
+
+This is a classical waveguide effect—higher-order modes cut off as the cladding thins, leaving only shorter wavelengths guided.
+
+### 2. Dual Signature (Internal vs External)
+Myelin damage should simultaneously:
+- ↑ External leakage (worse waveguide containment)
+- ↓ Internal guided signal (degraded transmission)
+
+Anti-correlated internal/external signals during demyelination would be strong evidence for waveguide function.
+
+### 3. Incomplete Remyelination Signature
+Remyelinated myelin is permanently thinner than original (g-ratio ~0.83 vs 0.80). This means:
+- Spectral centroid after remyelination: ~768nm
+- Permanent residual blueshift: ~26nm from healthy baseline
+- **No other biomarker can distinguish remyelinated from healthy myelin optically**
+
+## Node-to-Node Relay Model
+
+Classical waveguide physics + biological saltatory conduction = photonic relay.
+
+**Key insight:** Photons don't need to survive the entire axon length. At each node of Ranvier:
+1. Incoming photon arrives through myelin waveguide
+2. Action potential triggers ROS burst → new biophoton emission
+3. New photon couples into next internode's waveguide
+4. Steady-state flux: E/(1-T) where E=emission rate, T=transmission per node
+
+This is photonic saltatory conduction—the optical analog of electrical AP regeneration.
+
+**Evidence:**
+- Zangari et al. (2018): Nodes of Ranvier act as "bio-nanoantennas" radiating EM in optical/IR range
+- Kumar/Frede: Myelin waveguides support propagating modes at 400-1300nm
+- Our relay model predicts plateau instead of exponential decay along stimulated nerves
+
+## Proposed Experiment: Cuprizone Demyelination
+
+**Model:** C57BL/6 mice, 0.2% cuprizone, 6 weeks + recovery  
+**Measurement:** EMCCD biophoton imaging (same protocol as Dai 2014)  
+**Target:** Corpus callosum, 450μm slices, glutamate stimulation  
+**Timeline:** Weeks 0, 2, 4, 6 (demyelination), 8, 11 (remyelination)  
+**Cost:** ~$5K (assuming equipment access)
+
+**Primary outcomes:**
+1. Intensity vs. demyelination stage
+2. Spectral centroid vs. g-ratio (EM correlation)
+3. NAC blocks enhancement (confirms ROS source)
+4. Remyelination reversal (partial or complete?)
+
+Full experimental design: [demyelination_biophoton_proposal.md](demyelination_biophoton_proposal.md)
+
+## Repository Contents
+
+### Core Documents
+- `demyelination_biophoton_proposal.md` - Full experimental protocol for cuprizone measurement
+- `discord_relay_darpa_go_research.md` - Node-to-node quantum discord relay theory + DARPA GO connection
+- `biophoton_status_report.md` - Honest assessment of what's solid, what's broken, what's speculative
+
+### Research Tracks (see individual files for details)
+1. **Photocount Statistics** - Proves broadband biophotons can't distinguish coherent from thermal (useful negative result)
+2. **Waveguide Propagation** - Transfer matrix model, multi-node transmission
+3. **Quantum Optics** - Cavity QED bounds (weak coupling, Q~5, C~10⁻³)
+4. **Detection Feasibility** - Standard PMT can detect myelinated vs demyelinated in <10min
+5. **Demyelination Predictions** - Quantitative spectral shifts, dual signature
+6. **Relay Model** - E/(1-T) steady state, photonic saltatory conduction
 
 ## Key References
 
-- Kumar et al. (2016) "Possible existence of optical communication channels in the brain." *Scientific Reports* 6, 36508
-- Zeng et al. (2022) "Electromagnetic modeling and simulation of biophoton propagation in myelinated axon waveguide." *Applied Optics* 61(14), 4013–4021
-- Babini et al. (2022) "Simulation of nerve fiber based on anti-resonant reflecting optical waveguide." *Scientific Reports* 12, 19429
-- Frede et al. (2023) "Optical polarization evolution and transmission in multi-Ranvier-node axonal myelin-sheath waveguides." *bioRxiv* 2023.03.30.534951
-- Liu et al. (2024) "Entangled biphoton generation in the myelin sheath." *Physical Review E* 110, 024402
+**Waveguide Simulations:**
+- Kumar et al. (2016) *Sci Rep* - Original myelin waveguide FDTD simulation
+- Frede et al. (2023) *arXiv* - Multi-Ranvier-node polarization preservation
+- Liu et al. (2019) *Adv Funct Mater* - Experimental THz/mid-IR myelin waveguide
 
-See [docs/bibliography.md](docs/bibliography.md) for the full annotated bibliography.
+**Biophoton Data:**
+- Tang & Dai (2014) *PLOS ONE* - Glutamate-induced biophoton imaging protocol
+- Wang et al. (2016) *PNAS* - Human brain spectral redshift (865nm peak)
+- Chen, Wang & Dai (2020) *Brain Res* - Aging blueshift
 
-## Contributing
+**Quantum Theory:**
+- Liu, Chen & Ao (2024) *Phys Rev E* - Entangled biphoton generation via C-H bond vibrations (cavity QED)
 
-This is an open research program. Contributions welcome:
+**Demyelination Models:**
+- Matsushima & Morell (2001) - Cuprizone model review
+- Lindner et al. (2008) - G-ratio measurements at weeks 4, 6
 
-- **Computational:** MEEP/FDTD simulations, Monte Carlo photon transport, parameter sensitivity analysis
-- **Theoretical:** Extensions to the waveguide models, quantum optics formalism, statistical frameworks
-- **Experimental:** If you have access to biophoton detection equipment and demyelination animal models, we want to talk
+**Nanoantenna Mechanism:**
+- Zangari et al. (2018) *Sci Rep* - Nodes of Ranvier as bio-nanoantennas
+- Zangari et al. (2021) *Sci Rep* - Photons detected in active nerve (experimental confirmation)
 
-Open an issue or reach out directly.
+## Personal Context
 
-## Citation
+This research was driven by experiencing paralysis from a demyelinating disorder. The goal is to understand what happens to the optical dimension of the nervous system when myelin is destroyed—and potentially develop new ways to monitor disease progression and remyelination.
 
-```bibtex
-@misc{lengfelder2026biophoton,
-  author = {Lengfelder, Joshua},
-  title = {Biophotons in Myelinated Axons: Computational Research Program},
-  year = {2026},
-  publisher = {GitHub},
-  url = {https://github.com/luckyjupiter/biophoton-research}
-}
-```
+## Collaboration
 
-## License
+Open to collaborations on:
+- **Experimental validation** (cuprizone measurement with EMCCD)
+- **Theory synthesis** (cavity QED + waveguide models)
+- **Clinical translation** (MS biomarker development)
 
-Research documents: [CC BY 4.0](LICENSE)
-Simulation code (models/, unified_model/): [MIT](LICENSE)
+Funding available through Quantum Cognition Corporation for experiments that test these predictions.
 
-## Author
+**Contact:** josh@quantumcognition.com
 
-**Joshua Lengfelder** — [Quantum Cognition Corporation](https://quantumcognition.com)
+## Status
+
+**What's solid:**
+- Relay model math (E/(1-T) geometric series)
+- Research gap confirmation (nobody's measured demyelination)
+- Qualitative predictions (dual signature, blueshift direction)
+- Detection feasibility (within standard PMT range)
+
+**What's broken:**
+- Specific wavelength predictions off by ~100nm (calibration issue)
+- Nanoantenna/ROS emission ratio needs fixing
+
+**What's next:**
+- Run the cuprizone experiment (the measurement doesn't depend on the model)
+- Fix spectral calibration with real data
+- Publish relay model theory separately
+
+Full honest assessment: [biophoton_status_report.md](biophoton_status_report.md)
+
+---
+
+**License:** MIT  
+**Last updated:** February 2026
