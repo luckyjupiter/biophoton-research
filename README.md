@@ -145,7 +145,8 @@ Correlation between biophoton spectral centroid and electron microscopy g-ratio
 ## 📊 Repository Contents
 
 ### **Core Documents**
-- 📄 [**Experimental Proposal**](demyelination_biophoton_proposal_improved.md) - Grant-quality protocol with power analysis, statistical plan, budget
+- 📄 [**Relay Model Paper**](docs/relay-model-paper.md) - **NEW**: Publication-ready draft unifying species/aging/disease spectral shifts (73KB, 50 refs)
+- 📄 [**Experimental Proposal**](demyelination_biophoton_proposal_improved.md) - Grant-quality cuprizone protocol ($5K, 8 months)
 - 📄 [**Relay Theory**](discord_relay_darpa_go_research.md) - Node-to-node quantum discord relay + DARPA connection
 - 📄 [**Status Report**](biophoton_status_report.md) - What's validated, what's speculative, known limitations
 
@@ -153,9 +154,10 @@ Correlation between biophoton spectral centroid and electron microscopy g-ratio
 ```
 models/
 ├── cuprizone_v2.py        # Demyelination timeline (literature g-ratios)
+├── two_mechanism_v2.py    # **NEW**: Fixed calibration (6.2nm error at peak!)
 ├── node_emission.py       # ROS emission + relay at nodes
 ├── waveguide.py          # Transfer matrix propagation
-└── two_mechanism.py      # Metabolic + waveguide spectral components
+└── two_mechanism.py       # Legacy metabolic + waveguide model
 ```
 
 ### **Research Tracks** (8 Deep-Dives)
@@ -225,7 +227,9 @@ Research support through Quantum Cognition Corporation for proof-of-concept expe
 
 ### **Validated**
 - ✅ **Baseline match**: g=0.78 → 648nm prediction matches Dai's WT data exactly
+- ✅ **Peak demyelination**: Two-mechanism v2 predicts 587.2nm vs 581nm target = 6.2nm error (1.1%)
 - ✅ **Blueshift direction**: Demyelination shifts spectrum toward blue (shorter wavelengths)
+- ✅ **Two-mechanism model**: Waveguide (85%) + metabolic (15%) components properly separated
 - ✅ **Relay model math**: E/(1-T) geometric series (analytically exact)
 - ✅ **Research gap**: Systematic review confirms zero demyelination-biophoton studies
 - ✅ **Detection feasibility**: Within standard PMT sensitivity range
