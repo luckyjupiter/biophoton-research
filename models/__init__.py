@@ -21,7 +21,7 @@ Modules:
 
 from .axon import AxonGeometry
 from .demyelination import DemyelinationState
-from .detection import Detector
+# from .detection import Detector  # TODO: Update when Detector class is implemented
 from .emission import (
     compute_feature_vector,
     disease_emission,
@@ -76,7 +76,7 @@ __all__ = [
     # Demyelination
     "DemyelinationState",
     # Detection
-    "Detector",
+    # "Detector",  # TODO: Add when implemented
     # Emission
     "compute_feature_vector",
     "disease_emission",
